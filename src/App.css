@@ -1,0 +1,56 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  line-height: 110%;
+}
+
+h1 {
+  font-size: 2.25rem;
+}
+h2 {
+  font-size: 2rem;
+}
+h3 {
+  font-size: 1.8125rem;
+}
+h4 {
+  font-size: 1.625rem;
+}
+h5 {
+  font-size: 1.4375rem;
+}
+h6 {
+  font-size: 1.25rem;
+}
+p {
+  font-size: 1.125rem;
+  line-height: 150%;
+}
+
+@media screen and (min-width: 48rem) {
+  h1 {
+    font-size: 3.375rem;
+  }
+  h2 {
+    font-size: 2.8125rem;
+  }
+  h3 {
+    font-size: 2.3125rem;
+  }
+  h4 {
+    font-size: 1.9375rem;
+  }
+  h5 {
+    font-size: 1.625rem;
+  }
+  h6 {
+    font-size: 1.375rem;
+  }
+  p {
+    font-size: 1.125rem;
+  }
+}
