@@ -36,7 +36,6 @@ export const makeRequestWithAuth = async (
   url: string,
   options: RequestInit,
 ) => {
-  console.log("makeRequestWithAuth hit.");
   let accessToken = localStorage.getItem("accessToken");
   if (!accessToken) {
     throw new NoAccessTokenError("Access Token Not Found");
@@ -57,13 +56,5 @@ export const makeRequestWithAuth = async (
     headers: newHeaders,
   };
   const res = await fetch(`${getBEUrl()}${url}`, newOptions);
-  // if (res.status == 401) {
-  //   accessToken = await refreshAccessToken();
-  //
-  //   if (!accessToken) return res;
-  //   // retry
-  //   newOptions.headers.set("Authorization", `Bearer ${accessToken}`);
-  //   res = await fetch(`${getBEUrl()}${url}`, newOptions)
-  // }
   return res;
 };
