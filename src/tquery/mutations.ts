@@ -85,3 +85,61 @@ export async function unlikePost(postId: number) {
 
   return { success: true };
 }
+
+type PostCommentPayload = {
+  postId: number;
+  comment: string;
+};
+export async function postComment({ postId, comment }: PostCommentPayload) {
+  const res = await makeRequestWithAuth(`/posts/${postId}/comments`, {
+    method: "POST",
+    mode: "cors",
+    body: JSON.stringify({ message: comment }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!res.ok) {
+    const data: ErrorResType = await res.json();
+    throw new Error(data.error.message);
+  }
+  const data = await res.json();
+  return data;
+}
+
+export async function likeComment(postId: number, commentId: number) {
+  const res = await makeRequestWithAuth(
+    `/posts/${postId}/comments/${commentId}/like`,
+    {
+      method: "POST",
+      mode: "cors",
+    },
+  );
+
+  if (!res.ok) {
+    const data: ErrorResType = await res.json();
+    throw new Error(data.error.message);
+  }
+
+  const data = await res.json();
+  return data;
+}
+
+export async function unlikeComment(postId: number, commentId: number) {
+  const res = await makeRequestWithAuth(
+    `/posts/${postId}/comments/${commentId}/like`,
+    {
+      method: "DELETE",
+      mode: "cors",
+    },
+  );
+
+  if (!res.ok) {
+    const data: ErrorResType = await res.json();
+    throw new Error(data.error.message);
+  }
+
+  const data = await res.json();
+  return data;
+}

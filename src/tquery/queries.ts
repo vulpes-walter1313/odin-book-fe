@@ -57,3 +57,25 @@ export async function getFeedPosts({ sort, page }: GetFeedPostsPayload) {
   const data = await res.json();
   return data;
 }
+
+type GetPostCommentsPayload = {
+  postId: number;
+  page: number;
+};
+export async function getPostComments({
+  postId,
+  page,
+}: GetPostCommentsPayload) {
+  const res = await makeRequestWithAuth(
+    `/posts/${postId}/comments?page=${page}`,
+    {
+      method: "GET",
+      mode: "cors",
+    },
+  );
+  if (!res.ok) {
+    throw new Error("Couldn't get post comments");
+  }
+  const data = await res.json();
+  return data;
+}
