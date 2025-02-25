@@ -2,8 +2,12 @@ import { HiUser } from "react-icons/hi";
 import { FaHeart } from "react-icons/fa6";
 import { shortTimeAgo } from "@/lib/utils";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { likeComment, unlikeComment } from "@/tquery/mutations";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteComment, likeComment, unlikeComment } from "@/tquery/mutations";
+import { Button } from "./ui/button";
+import { QueryKeys } from "@/tquery/queryKeys";
+import CommentForm from "./CommentForm";
+import EditCommentForm from "./EditCommentForm";
 
 export type CommentFromRequest = {
   id: number;
@@ -19,11 +23,14 @@ export type CommentFromRequest = {
     userLikes: number;
   };
   userLikedComment: boolean;
+  userIsAuthor: boolean;
 };
 type CommentProps = {
   comment: CommentFromRequest;
 };
 function Comment({ comment }: CommentProps) {
+  const queryClient = useQueryClient();
+  const [showEditComment, setShowEditComment] = useState(false);
   const [commentLikes, setCommentLikes] = useState<number>(
     comment._count.userLikes,
   );
@@ -63,6 +70,24 @@ function Comment({ comment }: CommentProps) {
       setCommentLikes((num) => num - 1);
     },
   });
+
+  const deleteCommentMuta = useMutation({
+    mutationFn: async ({
+      postId,
+      commentId,
+    }: {
+      postId: number;
+      commentId: number;
+    }) => {
+      const data = await deleteComment(postId, commentId);
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.COMMENTS, `post-${comment.postId}`],
+      });
+    },
+  });
   return (
     <div className="flex justify-between gap-4">
       <div className="flex items-start gap-4">
@@ -88,9 +113,42 @@ function Comment({ comment }: CommentProps) {
               {shortTimeAgo(new Date(comment.createdAt))}
             </p>
           </div>
-          <p className="text-mobsmp leading-[120%] text-zinc-200 lg:text-desksmp">
-            {comment.message}
-          </p>
+          {showEditComment ? (
+            <EditCommentForm
+              postId={comment.postId}
+              commentId={comment.id}
+              initialComment={comment.message}
+              setShowEditComment={setShowEditComment}
+            />
+          ) : (
+            <p className="text-mobsmp leading-[120%] text-zinc-200 lg:text-desksmp">
+              {comment.message}
+            </p>
+          )}
+          {comment.userIsAuthor && (
+            <div className="flex items-center gap-4">
+              {/* add edit and delete buttons if user is author */}
+              <Button
+                variant="link"
+                className="h-fit p-0 text-zinc-50"
+                onClick={() => setShowEditComment((bool) => !bool)}
+              >
+                {showEditComment ? "Cancel" : "Edit"}
+              </Button>
+              <Button
+                variant="link"
+                className="h-fit p-0 text-red-500"
+                onClick={() =>
+                  deleteCommentMuta.mutate({
+                    postId: comment.postId,
+                    commentId: comment.id,
+                  })
+                }
+              >
+                Delete
+              </Button>
+            </div>
+          )}
         </div>
       </div>
       <div

@@ -108,6 +108,53 @@ export async function postComment({ postId, comment }: PostCommentPayload) {
   return data;
 }
 
+type EditCommentPayload = {
+  postId: number;
+  commentId: number;
+  message: string;
+};
+export async function editComment({
+  postId,
+  commentId,
+  message,
+}: EditCommentPayload) {
+  const res = await makeRequestWithAuth(
+    `/posts/${postId}/comments/${commentId}`,
+    {
+      method: "PUT",
+      mode: "cors",
+      body: JSON.stringify({ message: message }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+
+  if (!res.ok) {
+    const data: ErrorResType = await res.json();
+    throw new Error(data.error.message);
+  }
+  const data = await res.json();
+  return data;
+}
+
+export async function deleteComment(postId: number, commentId: number) {
+  const res = await makeRequestWithAuth(
+    `/posts/${postId}/comments/${commentId}`,
+    {
+      method: "DELETE",
+      mode: "cors",
+    },
+  );
+
+  if (!res.ok) {
+    const data: ErrorResType = await res.json();
+    throw new Error(data.error.message);
+  }
+  const data = await res.json();
+  return data;
+}
+
 export async function likeComment(postId: number, commentId: number) {
   const res = await makeRequestWithAuth(
     `/posts/${postId}/comments/${commentId}/like`,
