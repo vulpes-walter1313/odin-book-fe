@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import FeedPage from "./pages/FeedPage.tsx";
 import UsersPage from "./pages/UsersPage.tsx";
+import CreatePostPage from "./pages/CreatePostPage.tsx";
 
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
@@ -21,6 +22,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="signin" element={<SigninPage />} />
             <Route path="feed" element={<FeedPage />} />
             <Route path="users" element={<UsersPage />} />
+            <Route path="posts/create" element={<CreatePostPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

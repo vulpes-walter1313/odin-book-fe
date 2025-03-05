@@ -36,6 +36,23 @@ export const signInMutation = async ({
   return { success: true };
 };
 
+export async function createPost(values: { caption: string; image: File }) {
+  const formData = new FormData();
+  formData.set("caption", values.caption);
+  formData.set("image", values.image);
+  const res = await makeRequestWithAuth(`/posts`, {
+    method: "POST",
+    mode: "cors",
+    body: formData,
+  });
+
+  if (!res.ok) {
+    const error: ErrorResType = await res.json();
+    throw new Error(error.error.message);
+  }
+  return { success: true };
+}
+
 export async function followMutation(username: string) {
   const res = await makeRequestWithAuth(`/profiles/${username}/follow`, {
     method: "POST",
