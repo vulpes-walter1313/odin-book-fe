@@ -53,6 +53,18 @@ export async function createPost(values: { caption: string; image: File }) {
   return { success: true };
 }
 
+export async function deletePost(postId: number) {
+  const res = await makeRequestWithAuth(`/posts/${postId}`, {
+    method: "DELETE",
+    mode: "cors",
+  });
+  if (!res.ok) {
+    const error: ErrorResType = await res.json();
+    throw new Error(error.error.message);
+  }
+  return { success: true };
+}
+
 export async function followMutation(username: string) {
   const res = await makeRequestWithAuth(`/profiles/${username}/follow`, {
     method: "POST",

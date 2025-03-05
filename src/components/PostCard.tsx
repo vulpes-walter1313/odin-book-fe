@@ -1,7 +1,7 @@
 import { HiUser } from "react-icons/hi";
 import { FaHeart, FaComment, FaShare } from "react-icons/fa6";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { likePost, unlikePost } from "@/tquery/mutations";
+import { deletePost, likePost, unlikePost } from "@/tquery/mutations";
 import { QueryKeys } from "@/tquery/queryKeys";
 import { useState } from "react";
 import { Button } from "./ui/button";
@@ -23,6 +23,7 @@ export type PostsFromRequests = {
     comments: number;
   };
   likedByUser: boolean;
+  userIsAuthor: boolean;
 };
 type PostCardProps = {
   post: PostsFromRequests;
@@ -65,6 +66,17 @@ function PostCard({ post, sort }: PostCardProps) {
       likeMuta.mutate({ postId: post.id });
     }
   };
+
+  const deletePostMuta = useMutation({
+    mutationFn: async () => {
+      const data = await deletePost(post.id);
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.FEED] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.EXPLORE] });
+    },
+  });
   return (
     <div key={post.id} className="rounded-xl bg-zinc-800 shadow-lg">
       <div className="flex gap-2 p-4">
@@ -118,6 +130,17 @@ function PostCard({ post, sort }: PostCardProps) {
       >
         View Comments...
       </Button>
+      {post.userIsAuthor && (
+        <Button
+          variant="link"
+          className="text-red-400"
+          onClick={() => {
+            deletePostMuta.mutate();
+          }}
+        >
+          Delete Post
+        </Button>
+      )}
       {showComments && (
         <PostCardComments postId={post.id} setShowComments={setShowComments} />
       )}
