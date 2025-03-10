@@ -15,6 +15,8 @@ import { IoIosSend } from "react-icons/io";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postComment } from "@/tquery/mutations";
 import { QueryKeys } from "@/tquery/queryKeys";
+import { useContext } from "react";
+import { PostCardContext } from "@/contexts/postCardContexts";
 
 const formSchema = z.object({
   comment: z
@@ -30,6 +32,7 @@ type CommentFormProps = {
 };
 function CommentForm({ postId }: CommentFormProps) {
   const queryClient = useQueryClient();
+  const { setCommentCount } = useContext(PostCardContext);
 
   const postCommentMuta = useMutation({
     mutationFn: async ({ comment }: { comment: string }) => {
@@ -40,6 +43,7 @@ function CommentForm({ postId }: CommentFormProps) {
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.COMMENTS, `post-${postId}`],
       });
+      setCommentCount((num) => num + 1);
     },
   });
   // 1. Define your form.
