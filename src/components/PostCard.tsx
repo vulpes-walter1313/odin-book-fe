@@ -15,6 +15,7 @@ export type PostsFromRequests = {
   createdAt: string;
   updatedAt: string;
   author: {
+    id: string;
     name: string;
     username: string;
     profileImg: string | null;

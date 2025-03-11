@@ -10,6 +10,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import FeedPage from "./pages/FeedPage.tsx";
 import UsersPage from "./pages/UsersPage.tsx";
 import CreatePostPage from "./pages/CreatePostPage.tsx";
+import LikedPage from "./pages/LikedPage.tsx";
 
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
@@ -23,6 +24,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="feed" element={<FeedPage />} />
             <Route path="users" element={<UsersPage />} />
             <Route path="posts/create" element={<CreatePostPage />} />
+            <Route path="likes" element={<LikedPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
