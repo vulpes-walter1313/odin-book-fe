@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 
 type SortValueType = "popular" | "latest" | "oldest";
 function FeedPage() {
-  const [sort, setSort] = useState<SortValueType>("popular");
+  const [sort, setSort] = useState<SortValueType>("latest");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const postsQuery = useQuery({
