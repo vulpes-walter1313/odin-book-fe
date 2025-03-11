@@ -215,6 +215,7 @@ function PostCard({ post, sort, page }: PostCardProps) {
         {showComments && (
           <PostCardComments
             postId={post.id}
+            postImg={post.imageUrl}
             setShowComments={setShowComments}
           />
         )}

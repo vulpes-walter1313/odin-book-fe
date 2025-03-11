@@ -10,8 +10,13 @@ import CommentForm from "./CommentForm";
 type PostCardCommentsProps = {
   postId: number;
   setShowComments: React.Dispatch<React.SetStateAction<boolean>>;
+  postImg: string;
 };
-function PostCardComments({ postId, setShowComments }: PostCardCommentsProps) {
+function PostCardComments({
+  postId,
+  setShowComments,
+  postImg,
+}: PostCardCommentsProps) {
   const [page, setPage] = useState(1);
 
   const commentsQuery = useQuery({
@@ -28,9 +33,16 @@ function PostCardComments({ postId, setShowComments }: PostCardCommentsProps) {
   });
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-10 h-[70vh] border border-zinc-700 bg-zinc-800">
-      <div className="grid h-full grid-cols-1 grid-rows-[1fr_144px] gap-4">
-        <div className="overflow-y-scroll">
+    <div className="fixed bottom-0 left-0 right-0 z-10 h-[70vh] border border-zinc-700 bg-zinc-800 lg:bottom-2/4 lg:left-[10%] lg:right-[10%] lg:grid lg:translate-y-2/4 lg:grid-cols-[4fr_3fr] lg:rounded-lg">
+      <div className="hidden bg-zinc-900 lg:flex lg:h-full lg:items-center lg:justify-center">
+        <img
+          src={postImg}
+          alt="post image"
+          className="h-auto w-full object-contain"
+        />
+      </div>
+      <div className="grid h-full grid-cols-1 grid-rows-[[comments]_1fr_[commentForm]_144px] gap-4 lg:h-[inherit]">
+        <div className="h-full overflow-y-scroll">
           <div className="flex items-center justify-between p-4">
             <p className="text-mobh6 font-semibold text-zinc-50 lg:text-deskh6 lg:font-semibold">
               Comments
@@ -40,7 +52,7 @@ function PostCardComments({ postId, setShowComments }: PostCardCommentsProps) {
               onClick={() => setShowComments(false)}
             />
           </div>
-          <div className="flex flex-col gap-4 overflow-y-scroll px-4">
+          <div className="flex max-h-full flex-col gap-4 px-4">
             {commentsQuery.isSuccess &&
               commentsQuery.data &&
               commentsQuery.data.comments.map((comment: CommentFromRequest) => {
