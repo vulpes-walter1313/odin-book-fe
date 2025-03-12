@@ -62,12 +62,14 @@ type GetLikedPostsPayload = {
   sort: "popular" | "latest" | "oldest";
   page: number;
 };
-export async function getLikedPosts({sort, page}: GetLikedPostsPayload) {
-  const res = await makeRequestWithAuth(`/posts?feed=liked&sort=${sort}&page=${page}`, {
-    method: "GET",
-    mode: "cors"
-  });
-
+export async function getLikedPosts({ sort, page }: GetLikedPostsPayload) {
+  const res = await makeRequestWithAuth(
+    `/posts?feed=liked&sort=${sort}&page=${page}`,
+    {
+      method: "GET",
+      mode: "cors",
+    },
+  );
 
   if (!res.ok) {
     throw new Error("Error fetching from likes page");
