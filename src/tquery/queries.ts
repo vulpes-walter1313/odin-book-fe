@@ -58,6 +58,26 @@ export async function getFeedPosts({ sort, page }: GetFeedPostsPayload) {
   return data;
 }
 
+type GetExplorePostsPayload = {
+  sort: "popular" | "latest" | "oldest";
+  page: number;
+};
+export async function getExplorePosts({ sort, page }: GetExplorePostsPayload) {
+  const res = await makeRequestWithAuth(
+    `/posts?feed=explore&sort=${sort}&page=${page}`,
+    {
+      method: "GET",
+      mode: "cors",
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error("Error fetching from explore feed");
+  }
+  const data = await res.json();
+  return data;
+}
+
 type GetLikedPostsPayload = {
   sort: "popular" | "latest" | "oldest";
   page: number;
