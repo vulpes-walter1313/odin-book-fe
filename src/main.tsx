@@ -11,6 +11,7 @@ import FeedPage from "./pages/FeedPage.tsx";
 import UsersPage from "./pages/UsersPage.tsx";
 import CreatePostPage from "./pages/CreatePostPage.tsx";
 import LikedPage from "./pages/LikedPage.tsx";
+import SignupPage from "./pages/SignUpPage.tsx";
 
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
@@ -21,6 +22,7 @@ createRoot(document.getElementById("root")!).render(
           <Route element={<BaseLayout />}>
             <Route index element={<App />} />
             <Route path="signin" element={<SigninPage />} />
+            <Route path="signup" element={<SignupPage />} />
             <Route path="feed" element={<FeedPage />} />
             <Route path="users" element={<UsersPage />} />
             <Route path="posts/create" element={<CreatePostPage />} />

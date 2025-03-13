@@ -36,6 +36,40 @@ export const signInMutation = async ({
   return { success: true };
 };
 
+type SignUpMutationPayload = {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+export async function signUpMutation({
+  name,
+  username,
+  email,
+  password,
+  confirmPassword,
+}: SignUpMutationPayload) {
+  const res = await fetch(`${import.meta.env.VITE_BE_URL}/auth/signup`, {
+    method: "POST",
+    mode: "cors",
+    body: JSON.stringify({ name, username, email, password, confirmPassword }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!res.ok) {
+    const data: ErrorResType = await res.json();
+    throw new Error(data.error.message);
+  }
+  const data = await res.json();
+
+  localStorage.setItem("accessToken", data.accessToken);
+  localStorage.setItem("refreshToken", data.refreshToken);
+  return { success: true };
+}
+
 export async function createPost(values: { caption: string; image: File }) {
   const formData = new FormData();
   formData.set("caption", values.caption);
