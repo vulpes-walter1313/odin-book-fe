@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import PostCardComments from "./PostCardComments";
 import { PostCardContext } from "@/contexts/postCardContexts";
+import { Link } from "react-router";
 
 export type PostsFromRequests = {
   id: number;
@@ -148,27 +149,29 @@ function PostCard({ post, sort, page }: PostCardProps) {
       }}
     >
       <div key={post.id} className="rounded-xl bg-zinc-800 shadow-lg">
-        <div className="flex gap-2 p-4">
-          {post.author.profileImg ? (
-            <img
-              src={post.author.profileImg}
-              alt={`${post.author.name}'s profile image`}
-              className="h-12 w-12 rounded-full"
-            />
-          ) : (
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-zinc-700">
-              <HiUser className="fill=zinc-50 h-8 w-8" />
+        <Link to={`/users/${post.author.username}`}>
+          <div className="flex gap-2 p-4">
+            {post.author.profileImg ? (
+              <img
+                src={post.author.profileImg}
+                alt={`${post.author.name}'s profile image`}
+                className="h-12 w-12 rounded-full"
+              />
+            ) : (
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-zinc-700">
+                <HiUser className="fill=zinc-50 h-8 w-8" />
+              </div>
+            )}
+            <div>
+              <p className="text-mobp font-medium text-zinc-50 md:text-deskp md:font-medium">
+                {post.author.name}
+              </p>
+              <p className="text-mobsmp font-light text-zinc-300 md:text-desksmp md:font-light">
+                @{post.author.username}
+              </p>
             </div>
-          )}
-          <div>
-            <p className="text-mobp font-medium text-zinc-50 md:text-deskp md:font-medium">
-              {post.author.name}
-            </p>
-            <p className="text-mobsmp font-light text-zinc-300 md:text-desksmp md:font-light">
-              @{post.author.username}
-            </p>
           </div>
-        </div>
+        </Link>
         <img
           src={post.imageUrl}
           className="aspect-square w-full object-cover"
