@@ -1,3 +1,4 @@
+import { ErrorResType } from "@/lib/errors";
 import { makeRequestWithAuth } from "@/lib/requests";
 
 export const getAuthCheck = async () => {
@@ -115,6 +116,23 @@ export async function getPostComments({
   );
   if (!res.ok) {
     throw new Error("Couldn't get post comments");
+  }
+  const data = await res.json();
+  return data;
+}
+
+export async function getUserProfile(username: string | undefined) {
+  if (!username) {
+    throw new Error("username is undefined");
+  }
+  const res = await makeRequestWithAuth(`/profiles/${username}`, {
+    method: "GET",
+    mode: "cors",
+  });
+
+  if (!res.ok) {
+    const data: ErrorResType = await res.json();
+    throw new Error(data.error.message);
   }
   const data = await res.json();
   return data;
