@@ -137,3 +137,26 @@ export async function getUserProfile(username: string | undefined) {
   const data = await res.json();
   return data;
 }
+
+export async function getUserFollowing(
+  username: string | undefined,
+  page: number,
+) {
+  if (!username) {
+    throw new Error("username is undefined");
+  }
+  const res = await makeRequestWithAuth(
+    `/profiles/${username}/following?page=${page}&limit=15`,
+    {
+      method: "GET",
+      mode: "cors",
+    },
+  );
+
+  if (!res.ok) {
+    const data: ErrorResType = await res.json();
+    throw new Error(data.error.message);
+  }
+  const data = await res.json();
+  return data;
+}
