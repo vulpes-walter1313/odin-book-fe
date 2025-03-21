@@ -50,7 +50,7 @@ function SignInForm() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.USER] });
-      navigate("/");
+      navigate("/feed");
     },
   });
 
