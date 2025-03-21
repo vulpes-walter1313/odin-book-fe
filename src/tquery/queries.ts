@@ -160,3 +160,26 @@ export async function getUserFollowing(
   const data = await res.json();
   return data;
 }
+
+export async function getUserFollowers(
+  username: string | undefined,
+  page: number,
+) {
+  if (!username) {
+    throw new Error("username is undefined");
+  }
+  const res = await makeRequestWithAuth(
+    `/profiles/${username}/followers?page=${page}&limit=15`,
+    {
+      method: "GET",
+      mode: "cors",
+    },
+  );
+
+  if (!res.ok) {
+    const data: ErrorResType = await res.json();
+    throw new Error(data.error.message);
+  }
+  const data = await res.json();
+  return data;
+}
