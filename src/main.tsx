@@ -16,6 +16,7 @@ import ExplorePage from "./pages/ExplorePage.tsx";
 import UserPage from "./pages/UserPage.tsx";
 import UserFollowingPage from "./pages/UserFollowingPage.tsx";
 import UserFollowersPage from "./pages/UserFollowersPage.tsx";
+import UserPostsPage from "./pages/UserPostsPage.tsx";
 
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
@@ -32,7 +33,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="users">
               <Route index element={<UsersPage />} />
               <Route path=":username" element={<UserPage />}>
-                <Route index element={<div>User&apos;s posts</div>} />
+                <Route index element={<UserPostsPage />} />
                 <Route path="following" element={<UserFollowingPage />} />
                 <Route path="followers" element={<UserFollowersPage />} />
               </Route>

@@ -183,3 +183,32 @@ export async function getUserFollowers(
   const data = await res.json();
   return data;
 }
+
+type GetUserPostsPayload = {
+  username: string | undefined;
+  page: number;
+  sort: "popular" | "latest" | "oldest";
+};
+export async function getUserPosts({
+  username,
+  page,
+  sort,
+}: GetUserPostsPayload) {
+  if (!username) {
+    throw new Error("username is undefined");
+  }
+  const res = await makeRequestWithAuth(
+    `/posts?feed=user&sort=${sort}&page=${page}&username=${username}`,
+    {
+      method: "GET",
+      mode: "cors",
+    },
+  );
+
+  if (!res.ok) {
+    const data: ErrorResType = await res.json();
+    throw new Error(data.error.message);
+  }
+  const data = await res.json();
+  return data;
+}
