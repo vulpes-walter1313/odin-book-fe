@@ -33,14 +33,12 @@ function PostCardComments({
   });
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-10 h-[70vh] border border-zinc-700 bg-zinc-800 lg:bottom-2/4 lg:left-[10%] lg:right-[10%] lg:grid lg:translate-y-2/4 lg:grid-cols-[4fr_3fr] lg:rounded-lg">
-      <div className="hidden bg-zinc-900 lg:flex lg:h-full lg:items-center lg:justify-center">
-        <img
-          src={postImg}
-          alt="post image"
-          className="h-auto w-full object-contain"
-        />
-      </div>
+    <div className="fixed bottom-0 left-0 right-0 z-10 h-[70vh] overflow-hidden border border-zinc-700 bg-zinc-800 lg:bottom-2/4 lg:left-[10%] lg:right-[10%] lg:grid lg:translate-y-2/4 lg:grid-cols-[4fr_3fr] lg:rounded-lg">
+      <img
+        src={postImg}
+        alt="post image"
+        className="hidden h-full w-full object-contain lg:block"
+      />
       <div className="grid h-full grid-cols-1 grid-rows-[[comments]_1fr_[commentForm]_144px] gap-4 lg:h-[inherit]">
         <div className="h-full overflow-y-scroll">
           <div className="flex items-center justify-between p-4">
