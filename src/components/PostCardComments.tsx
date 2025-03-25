@@ -28,7 +28,7 @@ function PostCardComments({
   });
 
   const currentUserQuery = useQuery({
-    queryKey: [QueryKeys.USER],
+    queryKey: [QueryKeys.USER, "auth"],
     queryFn: getAuthCheck,
   });
 

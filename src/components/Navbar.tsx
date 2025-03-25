@@ -12,7 +12,7 @@ function Navbar() {
   const queryClient = useQueryClient();
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const { isError, isPending, isSuccess, data } = useQuery({
-    queryKey: [QueryKeys.USER],
+    queryKey: [QueryKeys.USER, "auth"],
     queryFn: getAuthCheck,
   });
   return (
