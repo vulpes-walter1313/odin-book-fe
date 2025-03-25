@@ -212,3 +212,17 @@ export async function getUserPosts({
   const data = await res.json();
   return data;
 }
+
+export async function getCurrentUserProfile() {
+  const res = await makeRequestWithAuth(`/profiles/current`, {
+    method: "GET",
+    mode: "cors",
+  });
+
+  if (!res.ok) {
+    const data: ErrorResType = await res.json();
+    throw new Error(data.error.message);
+  }
+  const data = await res.json();
+  return data;
+}
