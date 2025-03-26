@@ -2,7 +2,14 @@ import ChangePasswordForm from "@/components/ChangePasswordForm";
 import EditProfileForm from "@/components/EditProfileForm";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingMessage from "@/components/LoadingMessage";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { getCurrentUserProfile } from "@/tquery/queries";
 import { QueryKeys } from "@/tquery/queryKeys";
 import { useQuery } from "@tanstack/react-query";
@@ -43,9 +50,24 @@ function AccountPage() {
             )}
           </CardContent>
         </Card>
-        <div>
-          <h2>Danger Zone</h2>
-        </div>
+        <Card className="border-0 bg-zinc-800">
+          <CardHeader>
+            <CardTitle>
+              <h2 className="text-red-600">Danger Zone</h2>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-mobp font-semibold text-red-100 lg:text-deskp lg:font-semibold">
+              Delete Account
+            </p>
+            <p className="text-mobsmp text-red-100 lg:text-desksmp">
+              All your comments, posts, and account will be deleted
+            </p>
+          </CardContent>
+          <CardFooter>
+            <Button variant="destructive">Delete</Button>
+          </CardFooter>
+        </Card>
       </div>
     </div>
   );
