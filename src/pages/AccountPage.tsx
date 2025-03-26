@@ -1,3 +1,4 @@
+import ChangePasswordForm from "@/components/ChangePasswordForm";
 import EditProfileForm from "@/components/EditProfileForm";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingMessage from "@/components/LoadingMessage";
@@ -13,7 +14,7 @@ function AccountPage() {
   });
   return (
     <div className="min-h-screen bg-zinc-900 py-16 text-zinc-50">
-      <div className="mx-auto flex max-w-2xl flex-col">
+      <div className="mx-auto flex max-w-2xl flex-col gap-6">
         <Card className="border-0 bg-zinc-800">
           <CardHeader>
             <CardTitle>
@@ -28,9 +29,20 @@ function AccountPage() {
             )}
           </CardContent>
         </Card>
-        <div>
-          <h2>Change Password</h2>
-        </div>
+        <Card className="border-0 bg-zinc-800">
+          <CardHeader>
+            <CardTitle>
+              <h2 className="text-zinc-50">Change Password</h2>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {isSuccess && data && <ChangePasswordForm />}
+            {isLoading && <LoadingMessage message="Loading..." />}
+            {isError && (
+              <ErrorMessage message="There was an error in loading profile data. Please refresh page." />
+            )}
+          </CardContent>
+        </Card>
         <div>
           <h2>Danger Zone</h2>
         </div>
