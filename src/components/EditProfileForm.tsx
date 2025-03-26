@@ -1,7 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
 import { Input } from "./ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { HiUser } from "react-icons/hi";
@@ -96,6 +103,7 @@ function EditProfileForm({ user }: EditProfileFormProps) {
                     setImgPreview={setImgPreview}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -115,6 +123,7 @@ function EditProfileForm({ user }: EditProfileFormProps) {
                     className="border-zinc-600 bg-zinc-700 text-zinc-50"
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -132,6 +141,7 @@ function EditProfileForm({ user }: EditProfileFormProps) {
                     className="border-zinc-600 bg-zinc-700 text-zinc-50"
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -149,6 +159,7 @@ function EditProfileForm({ user }: EditProfileFormProps) {
                     className="min-h-44 border-zinc-600 bg-zinc-700 text-zinc-50"
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
