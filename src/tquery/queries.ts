@@ -213,8 +213,8 @@ export async function getUserPosts({
   return data;
 }
 
-export async function getCurrentUserProfile() {
-  const res = await makeRequestWithAuth(`/profiles/current`, {
+export async function getCurrentUserAccount() {
+  const res = await makeRequestWithAuth(`/account/user`, {
     method: "GET",
     mode: "cors",
   });
