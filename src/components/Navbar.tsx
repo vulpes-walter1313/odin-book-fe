@@ -6,6 +6,7 @@ import { getAuthCheck } from "@/tquery/queries";
 import { HiUser } from "react-icons/hi";
 import { useState } from "react";
 import { logout } from "@/lib/requests";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -52,18 +53,16 @@ function Navbar() {
               onClick={() => setSubmenuOpen((bool) => !bool)}
             >
               <p className="hidden md:block">{data.name}</p>
-              {data.profileImg ? (
-                <img
-                  src={data.profileImg}
-                  alt={`profile image of ${data.name}`}
-                  width={44}
-                  height={44}
+              <Avatar className="h-11 w-11">
+                <AvatarImage
+                  src={data.profileImg ?? ""}
+                  alt={`${data.name}'s profile image`}
+                  className="object-cover"
                 />
-              ) : (
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-zinc-700">
+                <AvatarFallback className="bg-zinc-700">
                   <HiUser className="h-6 w-6 fill-zinc-50" />
-                </div>
-              )}
+                </AvatarFallback>
+              </Avatar>
             </div>
             {submenuOpen && (
               <div
