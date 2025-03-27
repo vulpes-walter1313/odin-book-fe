@@ -10,13 +10,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getCurrentUserProfile } from "@/tquery/queries";
+import { getCurrentUserAccount } from "@/tquery/queries";
 import { QueryKeys } from "@/tquery/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 
 function AccountPage() {
   const { data, isSuccess, isError, isLoading } = useQuery({
-    queryFn: getCurrentUserProfile,
+    queryFn: getCurrentUserAccount,
     queryKey: [QueryKeys.USER, "current"],
   });
   return (
@@ -57,12 +57,20 @@ function AccountPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-mobp font-semibold text-red-100 lg:text-deskp lg:font-semibold">
-              Delete Account
-            </p>
-            <p className="text-mobsmp text-red-100 lg:text-desksmp">
-              All your comments, posts, and account will be deleted
-            </p>
+            {isSuccess && data && (
+              <>
+                <p className="text-mobp font-semibold text-red-100 lg:text-deskp lg:font-semibold">
+                  Delete Account
+                </p>
+                <p className="text-mobsmp text-red-100 lg:text-desksmp">
+                  All your comments, posts, and account will be deleted
+                </p>
+              </>
+            )}
+            {isLoading && <LoadingMessage message="Loading..." />}
+            {isError && (
+              <ErrorMessage message="There was an error in loading profile data. Please refresh page." />
+            )}
           </CardContent>
           <CardFooter>
             <Button variant="destructive">Delete</Button>
