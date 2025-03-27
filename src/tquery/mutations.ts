@@ -253,3 +253,37 @@ export async function unlikeComment(postId: number, commentId: number) {
   const data = await res.json();
   return data;
 }
+
+export type EditProfileInfoPayload = {
+  name: string;
+  bio?: string;
+  profileImg?: File;
+};
+export async function editProfileInfo({
+  name,
+  bio,
+  profileImg,
+}: EditProfileInfoPayload) {
+  // create a formDAta object to upload file here too
+  const formData = new FormData();
+  formData.set("name", name);
+  if (bio) {
+    formData.set("bio", bio);
+  }
+  if (profileImg) {
+    formData.set("profileImg", profileImg);
+  }
+
+  const res = await makeRequestWithAuth("/account/user", {
+    method: "PUT",
+    mode: "cors",
+    body: formData,
+  });
+
+  if (!res.ok) {
+    const data: ErrorResType = await res.json();
+    throw new Error(data.error.message);
+  }
+  const data = await res.json();
+  return data;
+}
