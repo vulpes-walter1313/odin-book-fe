@@ -6,6 +6,7 @@ import { IoClose } from "react-icons/io5";
 import Comment, { type CommentFromRequest } from "./Comment";
 import { HiUser } from "react-icons/hi";
 import CommentForm from "./CommentForm";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 type PostCardCommentsProps = {
   postId: number;
@@ -59,19 +60,16 @@ function PostCardComments({
           </div>
         </div>
         <div className="flex h-36 items-center justify-center gap-4 border-t border-zinc-600 p-4">
-          {currentUserQuery.data?.profileImg ? (
-            <img
-              src={currentUserQuery.data.profileImg}
-              alt={`${currentUserQuery.data.name}'s profile image`}
-              width={40}
-              height={40}
-              className="flex-none"
+          <Avatar className="h-10 w-10">
+            <AvatarImage
+              src={currentUserQuery.data?.profileImg ?? ""}
+              alt={`${currentUserQuery.data?.name}'s profile image`}
+              className="object-cover"
             />
-          ) : (
-            <div className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-zinc-700">
+            <AvatarFallback className="bg-zinc-700">
               <HiUser className="h-6 w-6 fill-zinc-50" />
-            </div>
-          )}
+            </AvatarFallback>
+          </Avatar>
           <CommentForm postId={postId} />
         </div>
       </div>

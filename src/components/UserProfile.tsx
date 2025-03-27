@@ -59,6 +59,7 @@ function UserProfile({ user }: UserProfileProps) {
           <AvatarImage
             src={user.profileImg ?? ""}
             alt={`${user.name}'s profile image`}
+            className="object-cover"
           />
           <AvatarFallback className="bg-zinc-700">
             <HiUser className="h-14 w-14 fill-zinc-50" />
@@ -91,8 +92,9 @@ function UserProfile({ user }: UserProfileProps) {
             )}
           </div>
           <p>
-            {user.bio ??
-              "Follow me and get to know me! We might end up best friends!"}
+            {user.bio && user.bio !== "undefined"
+              ? user.bio
+              : "Follow me and get to know me! We might end up best friends!"}
           </p>
         </div>
       </div>

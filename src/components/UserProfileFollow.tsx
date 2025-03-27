@@ -61,6 +61,7 @@ function UserProfileFollow({ user, type }: UserProfileFollowProps) {
             <AvatarImage
               src={user.profileImg ?? ""}
               alt={`${user.name}'s profile image`}
+              className="object-cover"
             />
             <AvatarFallback className="bg-zinc-700">
               <HiUser className="h-8 w-8 fill-zinc-50" />
@@ -102,8 +103,9 @@ function UserProfileFollow({ user, type }: UserProfileFollowProps) {
         </p>
       </div>
       <p className="text-zinc-300">
-        {user.bio ??
-          "Follow me to get to know me! We might become best friends!"}
+        {user.bio && user.bio !== "undefined"
+          ? user.bio
+          : "Follow me to get to know me! We might become best friends!"}
       </p>
     </div>
   );

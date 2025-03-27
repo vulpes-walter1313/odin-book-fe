@@ -5,6 +5,7 @@ import { HiUser } from "react-icons/hi";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { Link } from "react-router";
 import { useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export type UserFromRequest = {
   id: string;
@@ -50,35 +51,35 @@ function UserCard({ user }: UserCardProps) {
       className="flex w-60 flex-col items-center justify-between rounded-xl bg-zinc-800 px-4 py-2"
     >
       <div className="flex flex-col items-center justify-center gap-2">
-        {user.profileImg ? (
-          <img
-            src={user.profileImg}
+        <Avatar className="h-14 w-14">
+          <AvatarImage
+            src={user.profileImg ?? ""}
             alt={`${user.name}'s profile image`}
-            width={56}
-            height={56}
+            className="object-cover"
           />
-        ) : (
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-zinc-700">
+          <AvatarFallback className="bg-zinc-700">
             <HiUser className="h-10 w-10 fill-zinc-50" />
-          </div>
-        )}
-        <div className="flex flex-col gap-2 text-center">
-          <div className="flex flex-col gap-1">
-            <p className="text-mobh6 text-zinc-50 md:text-deskh6">
-              {user.name}
+          </AvatarFallback>
+        </Avatar>
+        <Link to={`/users/${user.username}`}>
+          <div className="flex flex-col gap-2 text-center">
+            <div className="flex flex-col gap-1">
+              <p className="text-mobh6 text-zinc-50 md:text-deskh6">
+                {user.name}
+              </p>
+              <p className="text-mobxsp font-medium text-zinc-300 md:text-deskxsp md:font-medium">
+                {followerCount} followers
+              </p>
+            </div>
+            <p className="text-mobsmp text-zinc-400 md:text-desksmp">
+              @{user.username}
             </p>
-            <p className="text-mobxsp font-medium text-zinc-300 md:text-deskxsp md:font-medium">
-              {followerCount} followers
-            </p>
           </div>
-          <p className="text-mobsmp text-zinc-400 md:text-desksmp">
-            @{user.username}
-          </p>
-        </div>
+        </Link>
       </div>
       <div>
         <p className="text-mobsmp text-zinc-50 md:text-desksmp">
-          {user.bio
+          {user.bio && user.bio !== "undefined"
             ? user.bio
             : "Hi everyone, follow me and get to know me! We might vibe together!"}
         </p>

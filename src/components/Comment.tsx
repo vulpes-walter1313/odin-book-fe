@@ -8,6 +8,7 @@ import { Button } from "./ui/button";
 import { QueryKeys } from "@/tquery/queryKeys";
 import CommentForm from "./CommentForm";
 import EditCommentForm from "./EditCommentForm";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export type CommentFromRequest = {
   id: number;
@@ -91,19 +92,16 @@ function Comment({ comment }: CommentProps) {
   return (
     <div className="flex justify-between gap-4">
       <div className="flex items-start gap-4">
-        {comment.author.profileImg ? (
-          <img
-            src={comment.author.profileImg}
+        <Avatar className="h-10 w-10">
+          <AvatarImage
+            src={comment.author.profileImg ?? ""}
             alt={`${comment.author.name}'s profile image`}
-            width={40}
-            height={40}
-            className="flex-none"
+            className="object-cover"
           />
-        ) : (
-          <div className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-zinc-700">
+          <AvatarFallback className="bg-zinc-700">
             <HiUser className="h-6 w-6 fill-zinc-50" />
-          </div>
-        )}
+          </AvatarFallback>
+        </Avatar>
         <div className="flex-1">
           <div className="flex items-center gap-2">
             <p className="lg:text-dekxsp text-mobxsp font-semibold text-zinc-50 lg:font-semibold">
