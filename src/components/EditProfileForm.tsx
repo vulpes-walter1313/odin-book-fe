@@ -19,6 +19,7 @@ import { Button } from "./ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { editProfileInfo, EditProfileInfoPayload } from "@/tquery/mutations";
 import { QueryKeys } from "@/tquery/queryKeys";
+import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
   name: z
@@ -43,6 +44,7 @@ type EditProfileFormProps = {
   user: UserFromRequest;
 };
 function EditProfileForm({ user }: EditProfileFormProps) {
+  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [imgPreview, setImgPreview] = useState<string | null>(user.profileImg);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -64,6 +66,9 @@ function EditProfileForm({ user }: EditProfileFormProps) {
         queryKey: [QueryKeys.USER, "current"],
       });
       queryClient.invalidateQueries({ queryKey: [QueryKeys.USER, "auth"] });
+      toast({
+        description: "👍 Your Profile has been updated",
+      });
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {

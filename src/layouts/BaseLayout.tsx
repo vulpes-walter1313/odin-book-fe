@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import React from "react";
+import { Toaster } from "@/components/ui/toaster";
 import { Outlet } from "react-router";
 
 function BaseLayout() {
@@ -7,6 +7,7 @@ function BaseLayout() {
     <div>
       <Navbar />
       <Outlet />
+      <Toaster />
     </div>
   );
 }
