@@ -70,6 +70,12 @@ function EditProfileForm({ user }: EditProfileFormProps) {
         description: "👍 Your Profile has been updated",
       });
     },
+    onError: () => {
+      toast({
+        description: "There was an error. Please try again.",
+        variant: "destructive",
+      });
+    },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
@@ -159,8 +165,13 @@ function EditProfileForm({ user }: EditProfileFormProps) {
               </FormItem>
             )}
           />
-          <Button variant="default" type="submit" className="self-start px-8">
-            Save
+          <Button
+            variant="default"
+            type="submit"
+            className="self-start px-8"
+            disabled={editProfileMuta.isPending}
+          >
+            {editProfileMuta.isPending ? "Saving..." : "Save"}
           </Button>
         </div>
       </form>
