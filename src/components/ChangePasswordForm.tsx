@@ -11,6 +11,9 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { useMutation } from "@tanstack/react-query";
+import { updatePassword } from "@/tquery/mutations";
+import { toast } from "@/hooks/use-toast";
 
 const formSchema = z
   .object({
@@ -48,8 +51,30 @@ function ChangePasswordForm() {
       confirmPassword: "",
     },
   });
+  const updatePasswordMuta = useMutation({
+    mutationFn: async (values: z.infer<typeof formSchema>) => {
+      const data = await updatePassword({
+        newPassword: values.newPassword,
+        oldPassword: values.oldPassword,
+        confirmNewPassword: values.confirmPassword,
+      });
+      return data;
+    },
+    onSuccess: () => {
+      toast({
+        description: "👍 Your Profile has been updated",
+      });
+    },
+    onError: (err) => {
+      toast({
+        description: err.message,
+        variant: "destructive",
+      });
+    },
+  });
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    updatePasswordMuta.mutate(values);
   }
   return (
     <Form {...form}>
@@ -117,8 +142,13 @@ function ChangePasswordForm() {
             </FormItem>
           )}
         />
-        <Button variant="default" type="submit" className="self-start px-8">
-          Save
+        <Button
+          variant="default"
+          type="submit"
+          className="self-start px-8"
+          disabled={updatePasswordMuta.isPending}
+        >
+          {updatePasswordMuta.isPending ? "Saving..." : "Save"}
         </Button>
       </form>
     </Form>

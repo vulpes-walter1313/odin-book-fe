@@ -287,3 +287,26 @@ export async function editProfileInfo({
   const data = await res.json();
   return data;
 }
+
+type UpdatePasswordPayload = {
+  oldPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+};
+export async function updatePassword(values: UpdatePasswordPayload) {
+  const res = await makeRequestWithAuth("/account/password", {
+    method: "PUT",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(values),
+  });
+
+  if (!res.ok) {
+    const data: ErrorResType = await res.json();
+    throw new Error(data.error.message);
+  }
+  const data = await res.json();
+  return data;
+}
