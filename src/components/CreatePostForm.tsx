@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,6 +18,7 @@ import FileUploader from "./FileUploader";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createPost } from "@/tquery/mutations";
 import { QueryKeys } from "@/tquery/queryKeys";
+import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
   caption: z
@@ -32,6 +32,7 @@ const formSchema = z.object({
 
 function CreatePostForm() {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const queryClient = useQueryClient();
   const createPostMuta = useMutation({
     mutationFn: async (values: z.infer<typeof formSchema>) => {
@@ -39,6 +40,7 @@ function CreatePostForm() {
       return data;
     },
     onSuccess: () => {
+      toast({ description: "Post Created" });
       queryClient.invalidateQueries({ queryKey: [QueryKeys.FEED] });
       navigate("/feed");
     },
@@ -77,6 +79,7 @@ function CreatePostForm() {
                   setImgPreview={setImgPreview}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -100,12 +103,17 @@ function CreatePostForm() {
                   className="border border-zinc-600 bg-zinc-700 text-mobp text-zinc-200 placeholder:text-zinc-500 lg:text-deskp"
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
         <div>
-          <Button type="submit" className="self-start">
-            Create Post
+          <Button
+            type="submit"
+            className="self-start"
+            disabled={createPostMuta.isPending}
+          >
+            {createPostMuta.isPending ? "Creating..." : "Create Post"}
           </Button>
           <Button
             type="button"
