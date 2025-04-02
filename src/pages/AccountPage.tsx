@@ -1,4 +1,5 @@
 import ChangePasswordForm from "@/components/ChangePasswordForm";
+import ChangeUsernameForm from "@/components/ChangeUsernameForm";
 import EditProfileForm from "@/components/EditProfileForm";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingMessage from "@/components/LoadingMessage";
@@ -30,6 +31,20 @@ function AccountPage() {
           </CardHeader>
           <CardContent>
             {isSuccess && data && <EditProfileForm user={data.user} />}
+            {isLoading && <LoadingMessage message="Loading..." />}
+            {isError && (
+              <ErrorMessage message="There was an error in loading profile data. Please refresh page." />
+            )}
+          </CardContent>
+        </Card>
+        <Card className="border-0 bg-zinc-800">
+          <CardHeader>
+            <CardTitle>
+              <h2 className="text-zinc-50">Change Username</h2>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {isSuccess && data && <ChangeUsernameForm user={data.user} />}
             {isLoading && <LoadingMessage message="Loading..." />}
             {isError && (
               <ErrorMessage message="There was an error in loading profile data. Please refresh page." />

@@ -310,3 +310,24 @@ export async function updatePassword(values: UpdatePasswordPayload) {
   const data = await res.json();
   return data;
 }
+
+type UpdateUsernamePayload = {
+  newUsername: string;
+};
+export async function updateUsername(values: UpdateUsernamePayload) {
+  const res = await makeRequestWithAuth(`/account/username`, {
+    method: "PUT",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(values),
+  });
+
+  if (!res.ok) {
+    const data: ErrorResType = await res.json();
+    throw new Error(data.error.message);
+  }
+  const data = await res.json();
+  return data;
+}
