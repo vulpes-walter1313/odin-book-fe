@@ -8,6 +8,7 @@ import { Button } from "./ui/button";
 import PostCardComments from "./PostCardComments";
 import { PostCardContext } from "@/contexts/postCardContexts";
 import { Link } from "react-router";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export type PostsFromRequests = {
   id: number;
@@ -152,11 +153,16 @@ function PostCard({ post, sort, page }: PostCardProps) {
         <Link to={`/users/${post.author.username}`}>
           <div className="flex gap-2 p-4">
             {post.author.profileImg ? (
-              <img
-                src={post.author.profileImg}
-                alt={`${post.author.name}'s profile image`}
-                className="h-12 w-12 rounded-full"
-              />
+              <Avatar className="h-12 w-12">
+                <AvatarImage
+                  src={post.author.profileImg ?? ""}
+                  alt={`${post.author.name}'s profile image`}
+                  className="object-cover"
+                />
+                <AvatarFallback className="bg-zinc-700">
+                  <HiUser className="h-8 w-8 fill-zinc-50" />
+                </AvatarFallback>
+              </Avatar>
             ) : (
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-zinc-700">
                 <HiUser className="fill=zinc-50 h-8 w-8" />
