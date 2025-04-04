@@ -28,7 +28,7 @@ function Navbar() {
               </NavLink>
             </Button>
             <Button variant="default" asChild>
-              <NavLink to="/signin" className="">
+              <NavLink to="/signup" className="">
                 Sign Up
               </NavLink>
             </Button>
@@ -69,9 +69,15 @@ function Navbar() {
                 className="absolute right-0 top-16 flex flex-col justify-center rounded-lg bg-zinc-800 p-4"
                 onClick={() => setSubmenuOpen(false)}
               >
+                <Button variant="link" asChild className="text-violet-400">
+                  <NavLink to={`/users/${data.username}`}>Your Profile</NavLink>
+                </Button>
+                <Button variant="link" asChild className="text-violet-400">
+                  <NavLink to="/account">Settings</NavLink>
+                </Button>
                 <Button
-                  variant="default"
-                  className="flex items-center"
+                  variant="outline"
+                  className="flex items-center text-violet-400"
                   onClick={() => {
                     logout();
                     queryClient.invalidateQueries({
@@ -81,9 +87,6 @@ function Navbar() {
                   }}
                 >
                   Logout
-                </Button>
-                <Button variant="link" asChild className="text-violet-400">
-                  <NavLink to="/account">Settings</NavLink>
                 </Button>
               </div>
             )}
