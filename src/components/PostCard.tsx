@@ -180,7 +180,7 @@ function PostCard({ post, sort, page }: PostCardProps) {
         </Link>
         <img
           src={post.imageUrl}
-          className="aspect-square w-full object-cover"
+          className="w-full object-cover"
           onDoubleClick={handleLikeClick}
         />
         <div className="flex justify-between p-4">
