@@ -331,3 +331,24 @@ export async function updateUsername(values: UpdateUsernamePayload) {
   const data = await res.json();
   return data;
 }
+
+type DeleteAccountPayload = {
+  password: string;
+};
+export async function deleteAccount(values: DeleteAccountPayload) {
+  const res = await makeRequestWithAuth(`/account/user`, {
+    method: "DELETE",
+    mode: "cors",
+    body: JSON.stringify(values),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!res.ok) {
+    const data: ErrorResType = await res.json();
+    throw new Error(data.error.message);
+  }
+  const data = await res.json();
+  return data;
+}

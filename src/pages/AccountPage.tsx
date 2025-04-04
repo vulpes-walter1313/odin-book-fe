@@ -1,16 +1,10 @@
 import ChangePasswordForm from "@/components/ChangePasswordForm";
 import ChangeUsernameForm from "@/components/ChangeUsernameForm";
+import DeleteAccountSection from "@/components/DeleteAccountSection";
 import EditProfileForm from "@/components/EditProfileForm";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingMessage from "@/components/LoadingMessage";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCurrentUserAccount } from "@/tquery/queries";
 import { QueryKeys } from "@/tquery/queryKeys";
 import { useQuery } from "@tanstack/react-query";
@@ -72,24 +66,12 @@ function AccountPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {isSuccess && data && (
-              <>
-                <p className="text-mobp font-semibold text-red-100 lg:text-deskp lg:font-semibold">
-                  Delete Account
-                </p>
-                <p className="text-mobsmp text-red-100 lg:text-desksmp">
-                  All your comments, posts, and account will be deleted
-                </p>
-              </>
-            )}
+            {isSuccess && data && <DeleteAccountSection />}
             {isLoading && <LoadingMessage message="Loading..." />}
             {isError && (
               <ErrorMessage message="There was an error in loading profile data. Please refresh page." />
             )}
           </CardContent>
-          <CardFooter>
-            <Button variant="destructive">Delete</Button>
-          </CardFooter>
         </Card>
       </div>
     </div>
