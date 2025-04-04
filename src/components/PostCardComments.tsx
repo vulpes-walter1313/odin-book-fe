@@ -54,6 +54,11 @@ function PostCardComments({
           <div className="flex max-h-full flex-col gap-4 px-4">
             {commentsQuery.isSuccess &&
               commentsQuery.data &&
+              commentsQuery.data.comments.length === 0 && (
+                <p className="pl-4 text-zinc-400">There are no comments yet</p>
+              )}
+            {commentsQuery.isSuccess &&
+              commentsQuery.data &&
               commentsQuery.data.comments.map((comment: CommentFromRequest) => {
                 return <Comment comment={comment} key={comment.id} />;
               })}
