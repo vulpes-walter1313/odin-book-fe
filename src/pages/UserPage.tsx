@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Outlet, useParams } from "react-router";
 import UserProfile, { UserFromRequest } from "@/components/UserProfile";
 import ErrorMessage from "@/components/ErrorMessage";
+import SidebarNav from "@/components/SidebarNav";
 
 function UserPage() {
   const { username } = useParams();
@@ -24,6 +25,7 @@ function UserPage() {
   return (
     <div className="min-h-screen bg-zinc-900 text-zinc-50">
       <div>
+        <SidebarNav />
         {isSuccess && user && <UserProfile user={user} />}
         {isPending && (
           <LoadingMessage message={`loading ${username}'s profile`} />
