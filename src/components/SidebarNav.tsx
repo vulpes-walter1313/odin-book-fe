@@ -7,7 +7,7 @@ import { MdOutlineExplore } from "react-icons/md";
 
 function SidebarNav() {
   return (
-    <div className="fixed bottom-10 left-4 right-4 flex h-min flex-col gap-20 rounded-xl bg-zinc-800/50 px-4 py-4 backdrop-blur-md lg:left-[max(0px,calc(50%-47rem))] lg:right-auto lg:top-28 lg:w-64 lg:bg-zinc-800 lg:py-6 lg:backdrop-blur-none">
+    <div className="fixed bottom-10 left-4 right-4 flex h-min flex-col gap-20 rounded-xl bg-zinc-800/50 px-4 py-4 backdrop-blur-md lg:left-[max(0px,calc(50%-37rem))] lg:right-auto lg:top-28 lg:w-64 lg:bg-zinc-800 lg:py-6 lg:backdrop-blur-none">
       <div className="flex justify-between lg:flex-col lg:gap-3">
         <NavLink
           to="/feed"
@@ -79,6 +79,7 @@ function SidebarNav() {
         </NavLink>
         <NavLink
           to="/users"
+          end
           className={({ isActive }) =>
             `flex items-center justify-between rounded-full px-3 py-3 lg:rounded-lg lg:px-4 ${
               isActive ? "bg-zinc-50" : "lg:bg-zinc-800"
