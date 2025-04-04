@@ -44,7 +44,7 @@ function UsersPage() {
             <FaSearch className="h-4 w-4 fill-zinc-50" />
           </div>
         </div>
-        <div className="mx-auto flex max-w-3xl flex-wrap justify-center gap-4">
+        <div className="mx-auto flex max-w-2xl flex-wrap justify-center gap-4">
           {userQuery.isLoading && <p>Loading...</p>}
           {userQuery.isError && <p>Error...</p>}
           {userQuery.data &&
