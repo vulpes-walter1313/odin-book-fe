@@ -99,6 +99,22 @@ export async function getLikedPosts({ sort, page }: GetLikedPostsPayload) {
   return data;
 }
 
+export async function getPost(postId: string | undefined) {
+  if (!postId) {
+    throw new Error("No postId provided");
+  }
+
+  const res = await makeRequestWithAuth(`/posts/${postId}`, {
+    method: "GET",
+    mode: "cors",
+  });
+
+  if (!res.ok) {
+    throw new Error("Error fetching from likes page");
+  }
+  const data = await res.json();
+  return data;
+}
 type GetPostCommentsPayload = {
   postId: number;
   page: number;

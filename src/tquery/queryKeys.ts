@@ -5,4 +5,5 @@ export enum QueryKeys {
   FIND_USERS = "FindUser",
   LIKES = "Likes",
   COMMENTS = "Comments",
+  POST = "Post",
 }

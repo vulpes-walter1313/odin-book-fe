@@ -18,6 +18,7 @@ import UserFollowingPage from "./pages/UserFollowingPage.tsx";
 import UserFollowersPage from "./pages/UserFollowersPage.tsx";
 import UserPostsPage from "./pages/UserPostsPage.tsx";
 import AccountPage from "./pages/AccountPage.tsx";
+import PostPage from "./pages/PostPage.tsx";
 
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
@@ -39,7 +40,10 @@ createRoot(document.getElementById("root")!).render(
                 <Route path="followers" element={<UserFollowersPage />} />
               </Route>
             </Route>
-            <Route path="posts/create" element={<CreatePostPage />} />
+            <Route path="posts">
+              <Route path="create" element={<CreatePostPage />} />
+              <Route path=":postId" element={<PostPage />} />
+            </Route>
             <Route path="likes" element={<LikedPage />} />
             <Route path="account" element={<AccountPage />} />
           </Route>
