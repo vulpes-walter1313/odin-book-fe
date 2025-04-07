@@ -9,6 +9,7 @@ import PostCardComments from "./PostCardComments";
 import { PostCardContext } from "@/contexts/postCardContexts";
 import { Link } from "react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { useToast } from "@/hooks/use-toast";
 
 export type PostsFromRequests = {
   id: number;
@@ -35,6 +36,7 @@ type PostCardProps = {
   page: number;
 };
 function PostCard({ post, sort, page }: PostCardProps) {
+  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [postLiked, setPostLiked] = useState<boolean>(post.likedByUser);
   const [commentCount, setCommentCount] = useState<number>(
@@ -79,8 +81,11 @@ function PostCard({ post, sort, page }: PostCardProps) {
         ],
       );
       queryClient.invalidateQueries({ queryKey: [QueryKeys.FEED, sort] });
-      setPostLiked(true);
-      setPostLikesCount((count) => count + 1);
+    },
+    onError: () => {
+      toast({ description: "Liking post failed. Try again." });
+      setPostLiked(false);
+      setPostLikesCount((count) => count - 1);
     },
   });
   const unlikeMuta = useMutation({
@@ -89,8 +94,6 @@ function PostCard({ post, sort, page }: PostCardProps) {
       return data;
     },
     onSuccess: () => {
-      setPostLiked(false);
-      setPostLikesCount((count) => count - 1);
       queryClient.setQueryData(
         [QueryKeys.FEED, sort, page],
         (old: PostsFromRequests[]) => [
@@ -120,13 +123,22 @@ function PostCard({ post, sort, page }: PostCardProps) {
       );
       queryClient.invalidateQueries({ queryKey: [QueryKeys.FEED, sort] });
     },
+    onError: () => {
+      toast({ description: "Post unlike failed. Try again." });
+      setPostLiked(true);
+      setPostLikesCount((count) => count + 1);
+    },
   });
 
   const handleLikeClick = () => {
     if (postLiked) {
       unlikeMuta.mutate({ postId: post.id });
+      setPostLiked(false);
+      setPostLikesCount((count) => count - 1);
     } else {
       likeMuta.mutate({ postId: post.id });
+      setPostLiked(true);
+      setPostLikesCount((count) => count + 1);
     }
   };
 
@@ -199,7 +211,15 @@ function PostCard({ post, sort, page }: PostCardProps) {
               <p>{commentCount}</p>
             </div>
           </div>
-          <FaShare className="h-6 w-6 fill-zinc-50" />
+          <FaShare
+            className="h-6 w-6 fill-zinc-50 hover:scale-95 hover:cursor-pointer hover:fill-violet-400"
+            onClick={() => {
+              navigator.clipboard.writeText(
+                `${import.meta.env.VITE_FE_URL}/posts/${post.id}`,
+              );
+              toast({ description: "✅ Post link copied to clipboard" });
+            }}
+          />
         </div>
         <div className="px-4">
           <p className="text-zinc-50">{post.caption}</p>
