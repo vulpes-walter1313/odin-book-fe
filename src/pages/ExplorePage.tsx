@@ -53,10 +53,14 @@ function ExplorePage() {
             </Button>
           </div>
           {postsQuery.isError && (
-            <ErrorMessage message="Error is fetching personal feed" />
+            <div className="flex w-full items-center justify-center pt-12">
+              <ErrorMessage message="Error fetching explore feed" />
+            </div>
           )}
           {postsQuery.isPending && (
-            <LoadingMessage message="Error is fetching personal feed" />
+            <div className="flex w-full items-center justify-center pt-12">
+              <LoadingMessage message="Loading explore feed" />
+            </div>
           )}
           {postsQuery.data &&
             postsQuery.data.map((post: PostsFromRequests) => {
