@@ -15,6 +15,8 @@ export type PostsFromRequests = {
   id: number;
   caption: string;
   imageUrl: string;
+  imageWidth: number;
+  imageHeight: number;
   createdAt: string;
   updatedAt: string;
   author: {
@@ -193,6 +195,8 @@ function PostCard({ post, sort, page }: PostCardProps) {
         <img
           src={post.imageUrl}
           className="w-full object-cover"
+          width={post.imageWidth}
+          height={post.imageHeight}
           onDoubleClick={handleLikeClick}
         />
         <div className="flex justify-between p-4">
