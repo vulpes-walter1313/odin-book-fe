@@ -250,6 +250,8 @@ function PostCard({ post, sort, page }: PostCardProps) {
           <PostCardComments
             postId={post.id}
             postImg={post.imageUrl}
+            postImgWidth={post.imageWidth}
+            postImgHeight={post.imageHeight}
             setShowComments={setShowComments}
           />
         )}
