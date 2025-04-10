@@ -1,6 +1,6 @@
 import { HiUser } from "react-icons/hi";
 import { FaHeart, FaComment, FaShare } from "react-icons/fa6";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deletePost, likePost, unlikePost } from "@/tquery/mutations";
 import { QueryKeys } from "@/tquery/queryKeys";
 import { useState } from "react";
@@ -10,6 +10,7 @@ import { PostCardContext } from "@/contexts/postCardContexts";
 import { Link } from "react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useToast } from "@/hooks/use-toast";
+import { getAuthCheck } from "@/tquery/queries";
 
 export type PostsFromRequests = {
   id: number;
@@ -40,6 +41,10 @@ type PostCardProps = {
 function PostCard({ post, sort, page }: PostCardProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const authUserQuery = useQuery({
+    queryFn: getAuthCheck,
+    queryKey: [QueryKeys.USER, "auth"],
+  });
   const [postLiked, setPostLiked] = useState<boolean>(post.likedByUser);
   const [commentCount, setCommentCount] = useState<number>(
     post._count.comments,
@@ -235,7 +240,8 @@ function PostCard({ post, sort, page }: PostCardProps) {
         >
           View Comments...
         </Button>
-        {post.userIsAuthor && (
+        {(post.userIsAuthor ||
+          (authUserQuery.isSuccess && authUserQuery.data.isAdmin)) && (
           <Button
             variant="link"
             className="text-red-400"
