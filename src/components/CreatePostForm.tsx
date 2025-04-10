@@ -44,6 +44,12 @@ function CreatePostForm() {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.FEED] });
       navigate("/feed");
     },
+    onError: (err) => {
+      toast({
+        description: err.message ?? "Error occured in upload",
+        variant: "destructive",
+      });
+    },
   });
   const [imgPreview, setImgPreview] = useState<string | null>(null);
   const form = useForm<z.infer<typeof formSchema>>({
