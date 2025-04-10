@@ -30,7 +30,7 @@ function FileUploader({ onChange, setImgPreview }: FileUploaderProps) {
         Drag Here to Upload Media
       </p>
       <p className="text-mobsmp text-zinc-200 lg:text-desksmp">
-        Should be less than 5mb
+        Should be less than 9mb and only png and jpg files
       </p>
       <p className="text-mobxsp font-light text-zinc-300 lg:text-deskxsp lg:font-light">
         Recommended size:
