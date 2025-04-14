@@ -121,7 +121,7 @@ function SignUpForm() {
               <FormControl>
                 <Input
                   type="text"
-                  placeholder="Display name"
+                  placeholder="Username"
                   {...field}
                   className="bg-zinc-50"
                 />
