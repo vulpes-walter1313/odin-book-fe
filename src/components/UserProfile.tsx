@@ -1,11 +1,17 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { followMutation, unfollowMutation } from "@/tquery/mutations";
+import {
+  deleteUser,
+  followMutation,
+  unfollowMutation,
+} from "@/tquery/mutations";
 import { QueryKeys } from "@/tquery/queryKeys";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { HiUser } from "react-icons/hi";
 import { FaPlus, FaMinus } from "react-icons/fa";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
+import { getAuthCheck } from "@/tquery/queries";
+import { useToast } from "@/hooks/use-toast";
 
 export type UserFromRequest = {
   id: string;
@@ -24,8 +30,15 @@ type UserProfileProps = {
   user: UserFromRequest;
 };
 function UserProfile({ user }: UserProfileProps) {
+  const { toast } = useToast();
+  const navigate = useNavigate();
   const [following, setFollowing] = useState(user.areFollowing);
   const [followerCount, setFollowerCount] = useState(user._count.followedBy);
+
+  const authUserQuery = useQuery({
+    queryFn: getAuthCheck,
+    queryKey: [QueryKeys.USER, "auth"],
+  });
 
   const queryClient = useQueryClient();
   const followMuta = useMutation({
@@ -52,8 +65,25 @@ function UserProfile({ user }: UserProfileProps) {
       setFollowerCount((num) => num - 1);
     },
   });
+
+  const deleteUserMuta = useMutation({
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      toast({ description: "Successfully deleted user" });
+      setTimeout(() => {
+        navigate("/feed");
+      }, 3000);
+    },
+    onError: (err) => {
+      toast({
+        description: err.message ?? "Failed to delete user",
+        variant: "destructive",
+      });
+    },
+  });
+
   return (
-    <div className="mx-auto flex max-w-lg flex-col gap-10 rounded-xl bg-zinc-800 p-6">
+    <div className="mx-auto flex max-w-lg flex-col gap-4 rounded-xl bg-zinc-800 p-6">
       <div className="flex gap-6">
         <Avatar className="h-24 w-24">
           <AvatarImage
@@ -98,6 +128,25 @@ function UserProfile({ user }: UserProfileProps) {
           </p>
         </div>
       </div>
+      {/* Admin buttons */}
+      {authUserQuery.isSuccess && authUserQuery.data.isAdmin === true && (
+        <div className="mb-4 flex flex-col items-center gap-2">
+          <h2 className="text-mobsmp font-medium lg:text-desksmp lg:font-medium">
+            Admin Tools:
+          </h2>
+          <div className="flex justify-center gap-4">
+            <button
+              className="rounded-lg bg-red-500 px-4 py-2 text-mobsmp font-medium leading-none text-red-50 lg:text-desksmp lg:font-medium lg:leading-none"
+              onClick={() => deleteUserMuta.mutate({ username: user.username })}
+            >
+              Delete
+            </button>
+            <button className="rounded-lg border-2 border-red-500 px-4 py-2 text-mobsmp font-medium leading-none text-red-500 lg:text-desksmp lg:font-medium lg:leading-none">
+              Ban
+            </button>
+          </div>
+        </div>
+      )}
       <div className="flex justify-center gap-4">
         {/* Links and stats */}
         <NavLink
