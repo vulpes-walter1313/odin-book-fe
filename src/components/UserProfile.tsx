@@ -12,6 +12,7 @@ import { FaPlus, FaMinus } from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router";
 import { getAuthCheck } from "@/tquery/queries";
 import { useToast } from "@/hooks/use-toast";
+import BanUserModal from "./BanUserModal";
 
 export type UserFromRequest = {
   id: string;
@@ -32,6 +33,7 @@ type UserProfileProps = {
 function UserProfile({ user }: UserProfileProps) {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [showBanModal, setShowBanModal] = useState(false);
   const [following, setFollowing] = useState(user.areFollowing);
   const [followerCount, setFollowerCount] = useState(user._count.followedBy);
 
@@ -141,10 +143,19 @@ function UserProfile({ user }: UserProfileProps) {
             >
               Delete
             </button>
-            <button className="rounded-lg border-2 border-red-500 px-4 py-2 text-mobsmp font-medium leading-none text-red-500 lg:text-desksmp lg:font-medium lg:leading-none">
+            <button
+              className="rounded-lg border-2 border-red-500 px-4 py-2 text-mobsmp font-medium leading-none text-red-500 lg:text-desksmp lg:font-medium lg:leading-none"
+              onClick={() => setShowBanModal(true)}
+            >
               Ban
             </button>
           </div>
+          {showBanModal && (
+            <BanUserModal
+              setShowBanModal={setShowBanModal}
+              username={user.username}
+            />
+          )}
         </div>
       )}
       <div className="flex justify-center gap-4">

@@ -368,3 +368,25 @@ export async function deleteUser({ username }: DeleteUserPayload) {
   const data = await res.json();
   return data;
 }
+
+type BanUserPayload = {
+  username: string;
+  banUntil: string;
+};
+export async function banUser(values: BanUserPayload) {
+  const res = await makeRequestWithAuth("/admin/users/ban", {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(values),
+  });
+
+  if (!res.ok) {
+    const data: ErrorResType = await res.json();
+    throw new Error(data.error.message);
+  }
+  const data = await res.json();
+  return data;
+}
