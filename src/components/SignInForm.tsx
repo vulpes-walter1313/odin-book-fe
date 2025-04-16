@@ -17,6 +17,7 @@ import { useState } from "react";
 import { BannedError } from "@/lib/errors";
 import { useNavigate } from "react-router";
 import { QueryKeys } from "@/tquery/queryKeys";
+import ErrorMessage from "./ErrorMessage";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -100,11 +101,7 @@ function SignInForm() {
             </FormItem>
           )}
         />
-        {error && (
-          <p className="bg-red-100 p-4 text-mobp text-red-900 md:text-deskp">
-            {error}
-          </p>
-        )}
+        {error && <ErrorMessage message={error} />}
         <Button
           className="self-start text-lg"
           type="submit"
