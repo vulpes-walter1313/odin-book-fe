@@ -14,9 +14,10 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { formatDateForDateTimeLocalInput } from "@/lib/utils";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { banUser } from "@/tquery/mutations";
 import { useToast } from "@/hooks/use-toast";
+import { QueryKeys } from "@/tquery/queryKeys";
 
 const formSchema = z.object({
   banUntil: z.string().regex(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/),
@@ -28,6 +29,7 @@ type BanUserFormProps = {
 };
 
 function BanUserForm({ username, setShowBanModal }: BanUserFormProps) {
+  const queryClient = useQueryClient();
   const { toast } = useToast();
   const [date] = useState<Date>(new Date(Date.now() + 1 * 60 * 60 * 1000));
   const form = useForm<z.infer<typeof formSchema>>({
@@ -40,6 +42,7 @@ function BanUserForm({ username, setShowBanModal }: BanUserFormProps) {
     mutationFn: banUser,
     onSuccess: () => {
       toast({ description: "User successfully banned!" });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.USER] });
     },
     onError: (err) => {
       toast({

@@ -13,11 +13,13 @@ import { NavLink, useNavigate } from "react-router";
 import { getAuthCheck } from "@/tquery/queries";
 import { useToast } from "@/hooks/use-toast";
 import BanUserModal from "./BanUserModal";
+import { DateTime } from "luxon";
 
 export type UserFromRequest = {
   id: string;
   name: string;
   username: string;
+  bannedUntil: string | null;
   bio: string | null;
   profileImg: string | null;
   _count: {
@@ -158,6 +160,15 @@ function UserProfile({ user }: UserProfileProps) {
           )}
         </div>
       )}
+      {user.bannedUntil &&
+      DateTime.fromISO(user.bannedUntil).toJSDate() > new Date(Date.now()) ? (
+        <p className="rounded-md bg-amber-200 p-4 text-amber-950">
+          Banned Until:{" "}
+          {DateTime.fromISO(user.bannedUntil).toLocaleString(
+            DateTime.DATETIME_MED_WITH_WEEKDAY,
+          )}
+        </p>
+      ) : null}
       <div className="flex justify-center gap-4">
         {/* Links and stats */}
         <NavLink
