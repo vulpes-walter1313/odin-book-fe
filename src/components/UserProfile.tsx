@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   deleteUser,
   followMutation,
+  unbanUser,
   unfollowMutation,
 } from "@/tquery/mutations";
 import { QueryKeys } from "@/tquery/queryKeys";
@@ -86,6 +87,24 @@ function UserProfile({ user }: UserProfileProps) {
     },
   });
 
+  const unbanMuta = useMutation({
+    mutationFn: unbanUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.USER],
+      });
+      toast({
+        description: "User successfully unbanned",
+      });
+    },
+    onError: () => {
+      toast({
+        description: "Unban failed!",
+        variant: "destructive",
+      });
+    },
+  });
+
   return (
     <div className="mx-auto flex max-w-lg flex-col gap-4 rounded-xl bg-zinc-800 p-6">
       <div className="flex gap-6">
@@ -145,12 +164,23 @@ function UserProfile({ user }: UserProfileProps) {
             >
               Delete
             </button>
-            <button
-              className="rounded-lg border-2 border-red-500 px-4 py-2 text-mobsmp font-medium leading-none text-red-500 lg:text-desksmp lg:font-medium lg:leading-none"
-              onClick={() => setShowBanModal(true)}
-            >
-              Ban
-            </button>
+            {user.bannedUntil &&
+            DateTime.fromISO(user.bannedUntil).toJSDate() >
+              new Date(Date.now()) ? (
+              <button
+                className="rounded-lg border-2 border-red-500 px-4 py-2 text-mobsmp font-medium leading-none text-red-500 lg:text-desksmp lg:font-medium lg:leading-none"
+                onClick={() => unbanMuta.mutate({ username: user.username })}
+              >
+                Unban
+              </button>
+            ) : (
+              <button
+                className="rounded-lg border-2 border-red-500 px-4 py-2 text-mobsmp font-medium leading-none text-red-500 lg:text-desksmp lg:font-medium lg:leading-none"
+                onClick={() => setShowBanModal(true)}
+              >
+                Ban
+              </button>
+            )}
           </div>
           {showBanModal && (
             <BanUserModal
