@@ -22,6 +22,9 @@ function ConfirmDelete({ setShowDeleteModal }: ConfirmDeleteProps) {
           This action is immediate and will permanently delete all your posts
           and comments.
         </p>
+        <p className="text-mobsmp text-zinc-400 lg:text-desksmp">
+          Type this below: delete my account
+        </p>
         <DeleteAccountForm />
       </div>
     </div>

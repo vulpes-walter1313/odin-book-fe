@@ -19,7 +19,7 @@ import { logout } from "@/lib/requests";
 import { useNavigate } from "react-router";
 
 const formSchema = z.object({
-  password: z.string(),
+  confirm: z.string(),
 });
 
 function DeleteAccountForm() {
@@ -29,7 +29,7 @@ function DeleteAccountForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      password: "",
+      confirm: "",
     },
   });
 
@@ -67,14 +67,14 @@ function DeleteAccountForm() {
         <div className="flex w-full flex-col items-center gap-4">
           <FormField
             control={form.control}
-            name="password"
+            name="confirm"
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormLabel className="text-mobp text-zinc-50 lg:text-deskp">
-                  Password
+                  Confirm
                 </FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} className="" />
+                  <Input type="text" {...field} className="" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -86,7 +86,7 @@ function DeleteAccountForm() {
             className="self-start px-8"
             disabled={deleteAccountMuta.isPending}
           >
-            {deleteAccountMuta.isPending ? "Saving..." : "Save"}
+            {deleteAccountMuta.isPending ? "Deleting..." : "Delete"}
           </Button>
         </div>
       </form>

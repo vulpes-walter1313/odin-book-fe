@@ -333,7 +333,7 @@ export async function updateUsername(values: UpdateUsernamePayload) {
 }
 
 type DeleteAccountPayload = {
-  password: string;
+  confirm: string;
 };
 export async function deleteAccount(values: DeleteAccountPayload) {
   const res = await makeRequestWithAuth(`/account/user`, {
