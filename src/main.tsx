@@ -19,6 +19,7 @@ import UserFollowersPage from "./pages/UserFollowersPage.tsx";
 import UserPostsPage from "./pages/UserPostsPage.tsx";
 import AccountPage from "./pages/AccountPage.tsx";
 import PostPage from "./pages/PostPage.tsx";
+import OauthSuccess from "./pages/OauthSuccess.tsx";
 
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
@@ -46,6 +47,7 @@ createRoot(document.getElementById("root")!).render(
             </Route>
             <Route path="likes" element={<LikedPage />} />
             <Route path="account" element={<AccountPage />} />
+            <Route path="oauth-success" element={<OauthSuccess />} />
           </Route>
         </Routes>
       </BrowserRouter>
