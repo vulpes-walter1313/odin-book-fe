@@ -45,20 +45,22 @@ function AccountPage() {
             )}
           </CardContent>
         </Card>
-        <Card className="border-0 bg-zinc-800">
-          <CardHeader>
-            <CardTitle>
-              <h2 className="text-zinc-50">Change Password</h2>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {isSuccess && data && <ChangePasswordForm />}
-            {isLoading && <LoadingMessage message="Loading..." />}
-            {isError && (
-              <ErrorMessage message="There was an error in loading profile data. Please refresh page." />
-            )}
-          </CardContent>
-        </Card>
+        {isSuccess && data.hasCredentialsAccount && (
+          <Card className="border-0 bg-zinc-800">
+            <CardHeader>
+              <CardTitle>
+                <h2 className="text-zinc-50">Change Password</h2>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {isSuccess && data && <ChangePasswordForm />}
+              {isLoading && <LoadingMessage message="Loading..." />}
+              {isError && (
+                <ErrorMessage message="There was an error in loading profile data. Please refresh page." />
+              )}
+            </CardContent>
+          </Card>
+        )}
         <Card className="border-0 bg-zinc-800">
           <CardHeader>
             <CardTitle>

@@ -37,6 +37,7 @@ const formSchema = z.object({
 export type UserFromRequest = {
   id: string;
   name: string;
+  username: string;
   bio: string | null;
   profileImg: string | null;
 };
