@@ -33,12 +33,11 @@ export type PostsFromRequests = {
   likedByUser: boolean;
   userIsAuthor: boolean;
 };
-type PostCardProps = {
+interface PostCardProps {
   post: PostsFromRequests;
   sort: "popular" | "latest" | "oldest";
-  page: number;
-};
-function PostCard({ post, sort, page }: PostCardProps) {
+}
+function PostCard({ post, sort }: PostCardProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const authUserQuery = useQuery({
@@ -60,7 +59,7 @@ function PostCard({ post, sort, page }: PostCardProps) {
     },
     onSuccess: () => {
       queryClient.setQueryData(
-        [QueryKeys.FEED, sort, page],
+        [QueryKeys.FEED, sort],
         (old: PostsFromRequests[]) => [
           ...old.map((oldpost) => {
             if (oldpost.id === post.id) {
@@ -102,7 +101,7 @@ function PostCard({ post, sort, page }: PostCardProps) {
     },
     onSuccess: () => {
       queryClient.setQueryData(
-        [QueryKeys.FEED, sort, page],
+        [QueryKeys.FEED, sort],
         (old: PostsFromRequests[]) => [
           ...old.map((oldpost) => {
             if (oldpost.id === post.id) {
@@ -164,7 +163,6 @@ function PostCard({ post, sort, page }: PostCardProps) {
       value={{
         postId: post.id,
         feedSort: sort,
-        feedPage: page,
         setCommentCount: setCommentCount,
       }}
     >
