@@ -1,12 +1,12 @@
 import { getAuthCheck, getPostComments } from "@/tquery/queries";
 import { QueryKeys } from "@/tquery/queryKeys";
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { IoClose } from "react-icons/io5";
 import Comment, { type CommentFromRequest } from "./Comment";
 import { HiUser } from "react-icons/hi";
 import CommentForm from "./CommentForm";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import InfiniteContainer from "./InfiniteContainer";
 
 type PostCardCommentsProps = {
   postId: number;
@@ -22,12 +22,22 @@ function PostCardComments({
   postImgWidth,
   postImgHeight,
 }: PostCardCommentsProps) {
-  const [page, setPage] = useState(1);
-
-  const commentsQuery = useQuery({
-    queryKey: [QueryKeys.COMMENTS, `post-${postId}`, `page-${page}`],
-    queryFn: async () => {
-      const data = await getPostComments({ postId, page });
+  const commentsQuery = useInfiniteQuery({
+    initialPageParam: {
+      page: 1,
+    },
+    getNextPageParam: (lastPage, _allPages, lastPageParam) => {
+      // @ts-expect-error can't find type of these in unknown
+      if (lastPageParam.page >= lastPage?.totalPages) {
+        return undefined;
+      }
+      return {
+        page: lastPageParam.page + 1,
+      };
+    },
+    queryKey: [QueryKeys.COMMENTS, `post-${postId}`],
+    queryFn: async ({ pageParam }) => {
+      const data = await getPostComments({ postId, page: pageParam.page });
       return data;
     },
   });
@@ -36,6 +46,11 @@ function PostCardComments({
     queryKey: [QueryKeys.USER, "auth"],
     queryFn: getAuthCheck,
   });
+
+  const comments = commentsQuery.data?.pages?.flatMap(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (page: any) => page?.comments,
+  );
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-10 h-[70vh] overflow-hidden border border-zinc-700 bg-zinc-800 lg:bottom-2/4 lg:left-[10%] lg:right-[10%] lg:grid lg:translate-y-2/4 lg:grid-cols-[4fr_3fr] lg:rounded-lg">
@@ -59,18 +74,25 @@ function PostCardComments({
               onClick={() => setShowComments(false)}
             />
           </div>
-          <div className="flex max-h-full flex-col gap-4 px-4">
-            {commentsQuery.isSuccess &&
-              commentsQuery.data &&
-              commentsQuery.data.comments.length === 0 && (
+          <InfiniteContainer
+            hasNextPage={commentsQuery.hasNextPage}
+            onViewCallback={commentsQuery.fetchNextPage}
+            isFetchingNextPage={commentsQuery.isFetchingNextPage}
+          >
+            <div className="flex max-h-full flex-col gap-4 px-4">
+              {comments && comments.length === 0 && (
                 <p className="pl-4 text-zinc-400">There are no comments yet</p>
               )}
-            {commentsQuery.isSuccess &&
-              commentsQuery.data &&
-              commentsQuery.data.comments.map((comment: CommentFromRequest) => {
-                return <Comment comment={comment} key={comment.id} />;
-              })}
-          </div>
+              {comments &&
+                comments.length > 0 &&
+                comments.map((comment: CommentFromRequest) => {
+                  return <Comment comment={comment} key={comment.id} />;
+                })}
+              {!commentsQuery.hasNextPage && (
+                <p className="text-center text-zinc-600">— End of comments —</p>
+              )}
+            </div>
+          </InfiniteContainer>
         </div>
         <div className="flex h-36 items-center justify-center gap-4 border-t border-zinc-600 p-4">
           <Avatar className="h-10 w-10">
