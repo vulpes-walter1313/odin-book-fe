@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { QueryKeys } from "@/tquery/queryKeys";
 import SidebarNav from "@/components/SidebarNav";
 import { getLikedPosts } from "@/tquery/queries";
@@ -7,23 +7,39 @@ import ErrorMessage from "@/components/ErrorMessage";
 import LoadingMessage from "@/components/LoadingMessage";
 import PostCard, { type PostsFromRequests } from "@/components/PostCard";
 import { Button } from "@/components/ui/button";
+import InfiniteContainer from "@/components/InfiniteContainer";
 
 type SortValueType = "popular" | "latest" | "oldest";
 function LikedPage() {
   const [sort, setSort] = useState<SortValueType>("latest");
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const postsQuery = useQuery({
-    queryKey: [QueryKeys.LIKES, sort, page],
-    queryFn: async () => {
-      const data = await getLikedPosts({ sort: sort, page: page });
-
-      if (totalPages != data.totalPages) {
-        setTotalPages(data.totalPages);
+  const postsQuery = useInfiniteQuery({
+    initialPageParam: {
+      page: 1,
+      sort: sort,
+    },
+    getNextPageParam: (lastPage, _allPages, lastPageParam) => {
+      // @ts-expect-error can't find type of these in unknown
+      if (lastPage?.currentPage === lastPage?.totalPages) {
+        return undefined;
       }
-      return data.posts;
+      return {
+        page: lastPageParam.page + 1,
+        sort: sort,
+      };
+    },
+    queryKey: [QueryKeys.LIKES, sort],
+    queryFn: async ({ pageParam }) => {
+      const data = await getLikedPosts({
+        sort: pageParam.sort,
+        page: pageParam.page,
+      });
+      return data;
     },
   });
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const posts = postsQuery.data?.pages?.flatMap((page: any) => page?.posts);
+
   return (
     <div className="min-h-[calc(100vh-72px)] bg-zinc-900 text-zinc-50">
       <div className="mx-auto max-w-lg gap-4 px-4 py-8 lg:relative">
@@ -62,12 +78,17 @@ function LikedPage() {
               <LoadingMessage message="Loading post likes" />
             </div>
           )}
-          {postsQuery.data &&
-            postsQuery.data.map((post: PostsFromRequests) => {
-              return (
-                <PostCard post={post} sort={sort} page={page} key={post.id} />
-              );
-            })}
+          {posts && (
+            <InfiniteContainer
+              hasNextPage={postsQuery.hasNextPage}
+              onViewCallback={postsQuery.fetchNextPage}
+              isFetchingNextPage={postsQuery.isFetchingNextPage}
+            >
+              {posts.map((post: PostsFromRequests) => {
+                return <PostCard post={post} sort={sort} key={post.id} />;
+              })}
+            </InfiniteContainer>
+          )}
         </div>
         <div className="col-span-3"></div>
       </div>
