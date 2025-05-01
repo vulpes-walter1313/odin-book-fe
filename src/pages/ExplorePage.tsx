@@ -39,7 +39,6 @@ function ExplorePage() {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const posts = postsQuery.data?.pages?.flatMap((page: any) => page?.posts);
-  console.log(posts);
 
   return (
     <div className="min-h-[calc(100vh-72px)] bg-zinc-900 text-zinc-50">
