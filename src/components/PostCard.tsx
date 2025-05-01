@@ -58,34 +58,6 @@ function PostCard({ post, sort }: PostCardProps) {
       return data;
     },
     onSuccess: () => {
-      queryClient.setQueryData(
-        [QueryKeys.FEED, sort],
-        (old: PostsFromRequests[]) => [
-          ...old.map((oldpost) => {
-            if (oldpost.id === post.id) {
-              return {
-                id: post.id,
-                caption: post.caption,
-                createdAt: post.createdAt,
-                updatedAt: post.updatedAt,
-                imageUrl: post.imageUrl,
-                author: {
-                  name: post.author.name,
-                  username: post.author.username,
-                  profileImg: post.author.profileImg,
-                },
-                _count: {
-                  userLikes: post._count.userLikes + 1,
-                  comments: post._count.comments,
-                },
-                likedByUser: true,
-                userIsAuthor: post.userIsAuthor,
-              };
-            }
-            return oldpost;
-          }),
-        ],
-      );
       queryClient.invalidateQueries({ queryKey: [QueryKeys.FEED, sort] });
     },
     onError: () => {
@@ -100,33 +72,6 @@ function PostCard({ post, sort }: PostCardProps) {
       return data;
     },
     onSuccess: () => {
-      queryClient.setQueryData(
-        [QueryKeys.FEED, sort],
-        (old: PostsFromRequests[]) => [
-          ...old.map((oldpost) => {
-            if (oldpost.id === post.id) {
-              return {
-                id: post.id,
-                caption: post.caption,
-                createdAt: post.createdAt,
-                updatedAt: post.updatedAt,
-                author: {
-                  name: post.author.name,
-                  username: post.author.username,
-                  profileImg: post.author.profileImg,
-                },
-                _count: {
-                  userLikes: post._count.userLikes - 1,
-                  comments: post._count.comments,
-                },
-                likedByUser: false,
-                userIsAuthor: post.userIsAuthor,
-              };
-            }
-            return oldpost;
-          }),
-        ],
-      );
       queryClient.invalidateQueries({ queryKey: [QueryKeys.FEED, sort] });
     },
     onError: () => {
