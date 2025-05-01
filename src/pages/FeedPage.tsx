@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { QueryKeys } from "@/tquery/queryKeys";
 import SidebarNav from "@/components/SidebarNav";
 import { getFeedPosts } from "@/tquery/queries";
@@ -10,41 +10,8 @@ import { Button } from "@/components/ui/button";
 import InfiniteContainer from "@/components/InfiniteContainer";
 
 type SortValueType = "popular" | "latest" | "oldest";
-interface Post {
-  id: number;
-  caption: string;
-  imageUrl: string;
-  imageWidth: number;
-  imageHeight: number;
-  createdAt: string;
-  updatedAt: string;
-  author: {
-    id: string;
-    username: string;
-    name: string;
-    profileImg: string;
-  };
-  _count: {
-    userLikes: number;
-    comments: number;
-  };
-  likedByUser: boolean;
-  userIsAuthor: boolean;
-}
-interface PostsPage {
-  success: boolean;
-  posts: Post[];
-  currentPage: number;
-  totalPages: number;
-}
-interface PostPageParam {
-  page: number;
-  sort: SortValueType;
-}
-type FeedQueryKey = [QueryKeys, SortValueType];
 function FeedPage() {
   const [sort, setSort] = useState<SortValueType>("latest");
-  const [page, setPage] = useState(1);
   const postsQuery = useInfiniteQuery({
     initialPageParam: {
       page: 1,
@@ -72,7 +39,6 @@ function FeedPage() {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const posts = postsQuery.data?.pages?.flatMap((page: any) => page?.posts);
-  console.log(posts);
 
   return (
     <div className="min-h-[calc(100vh-72px)] bg-zinc-900 text-zinc-50">
