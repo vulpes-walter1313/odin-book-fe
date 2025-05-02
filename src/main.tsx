@@ -2,7 +2,6 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { BrowserRouter, Route, Routes } from "react-router";
-import App from "./App.tsx";
 import BaseLayout from "./layouts/BaseLayout.tsx";
 import SigninPage from "./pages/SigninPage.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -20,6 +19,7 @@ import UserPostsPage from "./pages/UserPostsPage.tsx";
 import AccountPage from "./pages/AccountPage.tsx";
 import PostPage from "./pages/PostPage.tsx";
 import OauthSuccess from "./pages/OauthSuccess.tsx";
+import HomePage from "./pages/HomePage.tsx";
 
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
@@ -28,7 +28,7 @@ createRoot(document.getElementById("root")!).render(
       <BrowserRouter>
         <Routes>
           <Route element={<BaseLayout />}>
-            <Route index element={<App />} />
+            <Route index element={<HomePage />} />
             <Route path="signin" element={<SigninPage />} />
             <Route path="signup" element={<SignupPage />} />
             <Route path="feed" element={<FeedPage />} />
