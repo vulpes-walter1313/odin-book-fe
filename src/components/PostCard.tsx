@@ -11,6 +11,7 @@ import { Link } from "react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useToast } from "@/hooks/use-toast";
 import { getAuthCheck } from "@/tquery/queries";
+import { DateTime } from "luxon";
 
 export type PostsFromRequests = {
   id: number;
@@ -174,6 +175,11 @@ function PostCard({ post, sort }: PostCardProps) {
           />
         </div>
         <div className="px-4">
+          <p className="text-mobsmp text-zinc-500 md:text-desksmp">
+            {DateTime.fromISO(post.updatedAt).toLocaleString(
+              DateTime.DATETIME_MED,
+            )}
+          </p>
           <p className="text-zinc-50">{post.caption}</p>
         </div>
         <Button
