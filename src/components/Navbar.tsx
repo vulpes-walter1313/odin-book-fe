@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { NavLink, useNavigate } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { QueryKeys } from "@/tquery/queryKeys";
 import { getAuthCheck } from "@/tquery/queries";
@@ -19,7 +19,9 @@ function Navbar() {
   return (
     <nav className="bg-zinc-900 p-4 text-zinc-50">
       <div className="mx-auto flex max-w-5xl items-center justify-between">
-        <p className="text-mobh5 md:text-deskh5">Odook</p>
+        <Link to="/">
+          <p className="text-mobh5 md:text-deskh5">Odook</p>
+        </Link>
         {(isError || isPending) && (
           <div className="flex gap-4">
             <Button variant="outline" asChild>
