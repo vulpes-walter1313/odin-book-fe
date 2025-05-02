@@ -88,9 +88,13 @@ function PostCardComments({
                 comments.map((comment: CommentFromRequest) => {
                   return <Comment comment={comment} key={comment.id} />;
                 })}
-              {!commentsQuery.hasNextPage && (
-                <p className="text-center text-zinc-600">— End of comments —</p>
-              )}
+              {comments &&
+                comments.length > 0 &&
+                !commentsQuery.hasNextPage && (
+                  <p className="text-center text-zinc-600">
+                    — End of comments —
+                  </p>
+                )}
             </div>
           </InfiniteContainer>
         </div>
