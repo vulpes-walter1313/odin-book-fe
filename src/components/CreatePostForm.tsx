@@ -59,11 +59,8 @@ function CreatePostForm() {
       image: undefined as unknown as File,
     },
   });
-  // 2. Define a submit handler.
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
     createPostMuta.mutate(values);
   }
 
@@ -71,64 +68,68 @@ function CreatePostForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-4"
+        className="grid grid-cols-1 gap-4 lg:grid-cols-6 lg:grid-rows-1"
       >
-        <FormField
-          control={form.control}
-          name="image"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Image</FormLabel>
-              <FormControl>
-                <FileUploader
-                  onChange={field.onChange}
-                  setImgPreview={setImgPreview}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {imgPreview && (
-          <img
-            src={imgPreview}
-            alt="image Preview"
-            className="h-auto w-full rounded-lg"
+        <div className="flex w-full flex-col gap-4 lg:col-span-3">
+          <FormField
+            control={form.control}
+            name="image"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Image</FormLabel>
+                <FormControl>
+                  <FileUploader
+                    onChange={field.onChange}
+                    setImgPreview={setImgPreview}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        )}
-        <FormField
-          control={form.control}
-          name="caption"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Caption</FormLabel>
-              <FormControl>
-                <Textarea
-                  {...field}
-                  placeholder="Write down your thoughts..."
-                  className="border border-zinc-600 bg-zinc-700 text-mobp text-zinc-200 placeholder:text-zinc-500 lg:text-deskp"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          {imgPreview && (
+            <img
+              src={imgPreview}
+              alt="image Preview"
+              className="h-auto w-full rounded-lg"
+            />
           )}
-        />
-        <div>
-          <Button
-            type="submit"
-            className="self-start"
-            disabled={createPostMuta.isPending}
-          >
-            {createPostMuta.isPending ? "Creating..." : "Create Post"}
-          </Button>
-          <Button
-            type="button"
-            variant="link"
-            className="text-violet-400"
-            onClick={() => navigate("/feed")}
-          >
-            Cancel
-          </Button>
+        </div>
+        <div className="flex flex-col gap-4 lg:col-span-3">
+          <FormField
+            control={form.control}
+            name="caption"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Caption</FormLabel>
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    placeholder="Write down your thoughts..."
+                    className="border border-zinc-600 bg-zinc-700 text-mobp text-zinc-200 placeholder:text-zinc-500 lg:text-deskp"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div>
+            <Button
+              type="submit"
+              className="self-start"
+              disabled={createPostMuta.isPending}
+            >
+              {createPostMuta.isPending ? "Creating..." : "Create Post"}
+            </Button>
+            <Button
+              type="button"
+              variant="link"
+              className="text-violet-400"
+              onClick={() => navigate("/feed")}
+            >
+              Cancel
+            </Button>
+          </div>
         </div>
       </form>
     </Form>

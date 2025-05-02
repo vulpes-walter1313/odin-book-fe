@@ -8,12 +8,14 @@ type FileUploaderProps = {
   setImgPreview: React.Dispatch<React.SetStateAction<string | null>>;
 };
 function FileUploader({ onChange, setImgPreview }: FileUploaderProps) {
-  const onDrop = useCallback((acceptedFiles: FileWithPath[]) => {
-    // TODO: do something with files
-    const file = acceptedFiles[0];
-    onChange(file);
-    setImgPreview(URL.createObjectURL(file));
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFiles: FileWithPath[]) => {
+      const file = acceptedFiles[0];
+      onChange(file);
+      setImgPreview(URL.createObjectURL(file));
+    },
+    [onChange, setImgPreview],
+  );
   const { getRootProps, getInputProps, open } = useDropzone({
     onDrop,
     accept: {
@@ -23,7 +25,7 @@ function FileUploader({ onChange, setImgPreview }: FileUploaderProps) {
   return (
     <div
       {...getRootProps()}
-      className="flex flex-col items-center justify-center gap-2 rounded-lg border border-zinc-600 bg-zinc-700 px-4 py-8"
+      className="flex w-full flex-col items-center justify-center gap-2 rounded-lg border border-zinc-600 bg-zinc-700 px-4 py-8"
     >
       <input {...getInputProps({ multiple: false })} />
       <p className="text-mobp font-semibold text-zinc-100 lg:text-deskp lg:font-semibold">
