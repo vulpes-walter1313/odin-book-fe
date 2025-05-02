@@ -4,6 +4,7 @@ import DeleteAccountSection from "@/components/DeleteAccountSection";
 import EditProfileForm from "@/components/EditProfileForm";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingMessage from "@/components/LoadingMessage";
+import SidebarNav from "@/components/SidebarNav";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCurrentUserAccount } from "@/tquery/queries";
 import { QueryKeys } from "@/tquery/queryKeys";
@@ -15,8 +16,9 @@ function AccountPage() {
     queryKey: [QueryKeys.USER, "current"],
   });
   return (
-    <div className="min-h-screen bg-zinc-900 py-16 text-zinc-50">
-      <div className="mx-auto flex max-w-2xl flex-col gap-6">
+    <div className="min-h-screen bg-zinc-900 px-4 py-10 text-zinc-50">
+      <SidebarNav />
+      <div className="mx-auto flex max-w-xl flex-col gap-6">
         <Card className="border-0 bg-zinc-800">
           <CardHeader>
             <CardTitle>
@@ -61,7 +63,7 @@ function AccountPage() {
             </CardContent>
           </Card>
         )}
-        <Card className="border-0 bg-zinc-800">
+        <Card className="mb-28 border-0 bg-zinc-800">
           <CardHeader>
             <CardTitle>
               <h2 className="text-red-600">Danger Zone</h2>

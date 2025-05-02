@@ -8,12 +8,14 @@ type AvatarUploaderProps = {
   setImgPreview: React.Dispatch<React.SetStateAction<string | null>>;
 };
 function AvatarUploader({ onChange, setImgPreview }: AvatarUploaderProps) {
-  const onDrop = useCallback((acceptedFiles: FileWithPath[]) => {
-    // TODO: do something with files
-    const file = acceptedFiles[0];
-    onChange(file);
-    setImgPreview(URL.createObjectURL(file));
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFiles: FileWithPath[]) => {
+      const file = acceptedFiles[0];
+      onChange(file);
+      setImgPreview(URL.createObjectURL(file));
+    },
+    [onChange, setImgPreview],
+  );
   const { getRootProps, getInputProps, open } = useDropzone({
     onDrop,
     accept: {
@@ -33,6 +35,7 @@ function AvatarUploader({ onChange, setImgPreview }: AvatarUploaderProps) {
       <Button
         type="button"
         variant="ghost"
+        className="text-zinc-50"
         onClick={(e) => {
           e.stopPropagation();
           open();

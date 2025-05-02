@@ -79,7 +79,6 @@ function EditProfileForm({ user }: EditProfileFormProps) {
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     editProfileMuta.mutate(values);
   }
   return (
@@ -88,7 +87,7 @@ function EditProfileForm({ user }: EditProfileFormProps) {
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid w-full gap-4 lg:grid-cols-6"
       >
-        <div className="flex flex-col items-center gap-4 lg:col-span-2">
+        <div className="flex flex-col items-center gap-4 lg:col-span-3">
           <Avatar className="h-28 w-28">
             <AvatarImage
               src={imgPreview ?? ""}
@@ -129,7 +128,7 @@ function EditProfileForm({ user }: EditProfileFormProps) {
             )}
           />
         </div>
-        <div className="flex flex-col gap-4 lg:col-span-4">
+        <div className="flex flex-col gap-4 lg:col-span-3">
           <FormField
             control={form.control}
             name="name"
