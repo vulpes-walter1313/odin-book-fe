@@ -34,7 +34,7 @@ function UserFollowersPage() {
         {isSuccess &&
           data &&
           data.map((user) => (
-            <UserProfileFollow user={user} type="followers" />
+            <UserProfileFollow user={user} type="followers" key={user.id} />
           ))}
       </div>
       <div className="flex justify-center py-12">

@@ -5,6 +5,7 @@ import { followMutation, unfollowMutation } from "@/tquery/mutations";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { QueryKeys } from "@/tquery/queryKeys";
 import { FaPlus, FaMinus } from "react-icons/fa";
+import { Link } from "react-router";
 
 export type UserProfileFromRequest = {
   id: string;
@@ -56,7 +57,7 @@ function UserProfileFollow({ user, type }: UserProfileFollowProps) {
   return (
     <div className="rounded-xl bg-zinc-800 p-4">
       <div className="flex items-center justify-between">
-        <div className="flex gap-4">
+        <Link to={`/users/${user.username}`} className="flex gap-4">
           <Avatar className="h-12 w-12">
             <AvatarImage
               src={user.profileImg ?? ""}
@@ -75,7 +76,7 @@ function UserProfileFollow({ user, type }: UserProfileFollowProps) {
               @{user.username}
             </p>
           </div>
-        </div>
+        </Link>
         {following ? (
           <button
             onClick={() => unfollowMuta.mutate({ username: user.username })}

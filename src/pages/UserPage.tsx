@@ -24,7 +24,7 @@ function UserPage() {
   });
   return (
     <div className="min-h-screen bg-zinc-900 text-zinc-50">
-      <div>
+      <div className="px-4 pb-40 pt-6">
         <SidebarNav />
         {isSuccess && user && <UserProfile user={user} />}
         {isPending && (

@@ -1,6 +1,6 @@
 import { getUserFollowing } from "@/tquery/queries";
 import { QueryKeys } from "@/tquery/queryKeys";
-import { Query, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useParams } from "react-router";
 import UserProfileFollow, {
@@ -34,7 +34,7 @@ function UserFollowingPage() {
         {isSuccess &&
           data &&
           data.map((user) => (
-            <UserProfileFollow user={user} type="following" />
+            <UserProfileFollow user={user} type="following" key={user.id} />
           ))}
       </div>
       <div className="flex justify-center py-12">
