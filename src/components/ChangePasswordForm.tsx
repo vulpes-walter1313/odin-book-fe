@@ -96,6 +96,7 @@ function ChangePasswordForm() {
                   className="border-zinc-600 bg-zinc-700 text-zinc-50"
                   placeholder="••••••••"
                   type="password"
+                  autoComplete="current-password"
                 />
               </FormControl>
               <FormMessage />
@@ -116,6 +117,7 @@ function ChangePasswordForm() {
                   className="border-zinc-600 bg-zinc-700 text-zinc-50"
                   placeholder="••••••••"
                   type="password"
+                  autoComplete="new-password"
                 />
               </FormControl>
               <FormMessage />
@@ -136,6 +138,7 @@ function ChangePasswordForm() {
                   className="border-zinc-600 bg-zinc-700 text-zinc-50"
                   placeholder="••••••••"
                   type="password"
+                  autoComplete="new-password"
                 />
               </FormControl>
               <FormMessage />
