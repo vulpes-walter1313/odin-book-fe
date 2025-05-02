@@ -64,7 +64,6 @@ function SignUpForm() {
     },
   });
   const signupMuta = useMutation({
-    // replace with signUpMutation
     mutationFn: signUpMutation,
     onError: (err) => {
       if (err instanceof BannedError) {
@@ -145,6 +144,7 @@ function SignUpForm() {
                   placeholder="Email"
                   {...field}
                   className="bg-zinc-50"
+                  autoComplete="username"
                 />
               </FormControl>
               <FormMessage />
@@ -163,6 +163,7 @@ function SignUpForm() {
                   type="password"
                   {...field}
                   className="bg-zinc-50"
+                  autoComplete="new-password"
                 />
               </FormControl>
               <FormMessage />
@@ -183,6 +184,7 @@ function SignUpForm() {
                   type="password"
                   {...field}
                   className="bg-zinc-50"
+                  autoComplete="new-password"
                 />
               </FormControl>
               <FormMessage />

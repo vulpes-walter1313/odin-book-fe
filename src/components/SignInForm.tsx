@@ -77,6 +77,7 @@ function SignInForm() {
                   placeholder="Email"
                   {...field}
                   className="bg-zinc-50"
+                  autoComplete="username"
                 />
               </FormControl>
               <FormMessage />
@@ -95,6 +96,7 @@ function SignInForm() {
                   type="password"
                   {...field}
                   className="bg-zinc-50"
+                  autoComplete="current-password"
                 />
               </FormControl>
               <FormMessage />
