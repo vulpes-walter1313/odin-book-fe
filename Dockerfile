@@ -1,6 +1,9 @@
 FROM node:lts-alpine AS builder
 WORKDIR /app
 
+ARG VITE_BE_URL
+ARG VITE_FE_URL
+
 COPY . .
 RUN npm install && npm run build
 
