@@ -1,35 +1,61 @@
 import { getUserPosts } from "@/tquery/queries";
 import { QueryKeys } from "@/tquery/queryKeys";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import PostCard, { type PostsFromRequests } from "@/components/PostCard";
+import PostCard from "@/components/PostCard";
+import InfiniteContainer from "@/components/InfiniteContainer";
 
 type SortOptions = "popular" | "latest" | "oldest";
 function UserPostsPage() {
   const { username } = useParams();
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [sort, setSort] = useState<SortOptions>("latest");
-  const { data } = useQuery({
-    queryKey: [QueryKeys.USER, username ? username : "", "posts", sort, page],
-    queryFn: async () => {
-      const data = await getUserPosts({ username, sort, page });
+  const [sort] = useState<SortOptions>("latest");
+  const postsQuery = useInfiniteQuery({
+    initialPageParam: {
+      page: 1,
+      sort: sort,
+    },
+    getNextPageParam: (lastPage, _allPages, lastPageParam) => {
+      // @ts-expect-error can't find type of these in unknown
+      if (lastPage?.currentPage === lastPage?.totalPages) {
+        return undefined;
+      }
+      return {
+        page: lastPageParam.page + 1,
+        sort: sort,
+      };
+    },
+    queryKey: [QueryKeys.USER, username ? username : "", "posts", sort],
+    queryFn: async ({ pageParam }) => {
+      const data = await getUserPosts({
+        username,
+        sort: pageParam.sort,
+        page: pageParam.page,
+      });
 
-      return data.posts as PostsFromRequests[];
+      return data;
     },
   });
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const posts = postsQuery.data?.pages?.flatMap((page: any) => page?.posts);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   return (
-    <div className="mx-auto flex max-w-lg flex-col gap-4 py-12">
-      {data &&
-        data.map((post) => (
-          <PostCard post={post} sort={sort} page={page} key={post.id} />
-        ))}
+    <div className="mx-auto max-w-lg py-12">
+      <InfiniteContainer
+        hasNextPage={postsQuery.hasNextPage}
+        onViewCallback={postsQuery.fetchNextPage}
+        isFetchingNextPage={postsQuery.isFetchingNextPage}
+      >
+        {posts &&
+          posts.map((post) => (
+            <PostCard post={post} sort={sort} key={post.id} />
+          ))}
+      </InfiniteContainer>
     </div>
   );
 }
