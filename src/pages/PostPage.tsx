@@ -23,7 +23,7 @@ function PostPage() {
         <SidebarNav />
         <div className="mx-auto max-w-lg">
           {isSuccess && data.post && (
-            <PostCard post={data.post} page={1} sort={"latest"} />
+            <PostCard post={data.post} sort={"latest"} />
           )}
           {isPending && <LoadingMessage message={`loading post`} />}
           {isError && <ErrorMessage message="Something went wrong" />}

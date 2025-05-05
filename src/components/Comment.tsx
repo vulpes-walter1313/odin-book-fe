@@ -6,7 +6,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteComment, likeComment, unlikeComment } from "@/tquery/mutations";
 import { Button } from "./ui/button";
 import { QueryKeys } from "@/tquery/queryKeys";
-import CommentForm from "./CommentForm";
 import EditCommentForm from "./EditCommentForm";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
