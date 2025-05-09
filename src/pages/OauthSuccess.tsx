@@ -9,13 +9,10 @@ function OauthSuccess() {
     const accessToken = searchParams.get("accessToken");
     const refreshToken = searchParams.get("refreshToken");
     if (accessToken && refreshToken) {
-      console.log("setting auth tokens");
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
-      console.log("navigating to /feed");
       navigate("/feed");
     } else {
-      console.log("navigating to /signin");
       navigate("/signin");
     }
   }, [searchParams, navigate]);

@@ -17,7 +17,6 @@ import { toast } from "@/hooks/use-toast";
 
 const formSchema = z
   .object({
-    // update the input validation
     oldPassword: z
       .string()
       .max(48, { message: "Old Password should be at most 48 characters" }),
@@ -73,7 +72,6 @@ function ChangePasswordForm() {
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     updatePasswordMuta.mutate(values);
   }
   return (

@@ -40,11 +40,10 @@ export const makeRequestWithAuth = async (
   if (!accessToken) {
     throw new NoAccessTokenError("Access Token Not Found");
   }
-  // TODO: check accessToken expiration to refresh accessToken
+
   const accessExp = JSON.parse(atob(accessToken.split(".")[1])).exp;
   const now = Math.floor(Date.now() / 1000);
   if (accessExp - now < 60) {
-    console.log("refreshing token due to being close to invalid");
     accessToken = await refreshAccessToken();
   }
 

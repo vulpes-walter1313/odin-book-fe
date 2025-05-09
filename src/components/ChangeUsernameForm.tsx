@@ -68,7 +68,6 @@ function ChangeUsernameForm({ user }: ChangeUsernameFormProps) {
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     updateUsernameMuta.mutate(values);
   }
   return (

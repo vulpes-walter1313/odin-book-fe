@@ -13,7 +13,6 @@ function UsersPage() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const debouncedSetKeyword = useDebouncedCallback((value) => {
     setSearchKeyword(value);
-    console.log("debounced", value);
   }, 800);
   const [totalPages, setTotalPages] = useState(1);
   const pagesArr = Array.from({ length: totalPages }).map((_, idx) => idx + 1);

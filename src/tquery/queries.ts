@@ -2,23 +2,18 @@ import { ErrorResType } from "@/lib/errors";
 import { makeRequestWithAuth } from "@/lib/requests";
 
 export const getAuthCheck = async () => {
-  console.log("getAuthCheck hit");
   const res = await makeRequestWithAuth("/auth/check", {
     mode: "cors",
     method: "GET",
   });
-  console.log("res returned from makeRequestWithAuth");
 
   if (!res.ok) {
-    console.log("res.ok = false");
     throw new Error("Unauthenticated");
   }
   const data = await res.json();
   if (data.success) {
-    console.log("sending data back");
     return data;
   } else {
-    console.log("return data not successful...");
     throw new Error("Error in auth check");
   }
 };

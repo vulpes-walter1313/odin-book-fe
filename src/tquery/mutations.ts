@@ -19,8 +19,6 @@ export const signInMutation = async ({
 
   if (!res.ok) {
     const data: ErrorResType = await res.json();
-    console.log("res", res);
-    console.log("data", data);
     if (data.error.code === "BANNED") {
       throw new BannedError(
         data.error.message,
@@ -264,7 +262,6 @@ export async function editProfileInfo({
   bio,
   profileImg,
 }: EditProfileInfoPayload) {
-  // create a formDAta object to upload file here too
   const formData = new FormData();
   formData.set("name", name);
   if (bio) {
