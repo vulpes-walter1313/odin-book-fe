@@ -107,7 +107,7 @@ function UserProfile({ user }: UserProfileProps) {
 
   return (
     <div className="mx-auto flex max-w-lg flex-col gap-4 rounded-xl bg-zinc-800 p-6">
-      <div className="flex gap-6">
+      <div className="flex flex-col items-center gap-6 lg:flex-row">
         <Avatar className="h-24 w-24">
           <AvatarImage
             src={user.profileImg ?? ""}
@@ -119,7 +119,7 @@ function UserProfile({ user }: UserProfileProps) {
           </AvatarFallback>
         </Avatar>
         <div className="flex flex-col gap-4">
-          <div className="flex grow items-center justify-between gap-4">
+          <div className="flex grow flex-col items-center justify-between gap-4 lg:flex-row">
             <div>
               <h1 className="text-mobh4 font-semibold lg:text-deskh4 lg:font-semibold">
                 {user.name}
