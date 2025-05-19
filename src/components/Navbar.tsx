@@ -19,7 +19,7 @@ function Navbar() {
   return (
     <nav className="bg-zinc-900 p-4 text-zinc-50">
       <div className="mx-auto flex max-w-5xl items-center justify-between">
-        <Link to="/">
+        <Link to={isSuccess ? "/feed" : "/"}>
           <p className="text-mobh5 md:text-deskh5">Odook</p>
         </Link>
         {(isError || isPending) && (
