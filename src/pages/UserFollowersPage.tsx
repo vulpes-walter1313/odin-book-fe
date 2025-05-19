@@ -42,6 +42,7 @@ function UserFollowersPage() {
           return (
             <button
               onClick={() => setPage(num)}
+              key={num}
               className={`flex h-8 w-8 items-center justify-center rounded-lg ${num === page ? "bg-violet-400 text-zinc-800" : "border border-violet-400 text-violet-400"}`}
             >
               {num}
