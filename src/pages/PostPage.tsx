@@ -6,6 +6,7 @@ import { useParams } from "react-router";
 import ErrorMessage from "@/components/ErrorMessage";
 import SidebarNav from "@/components/SidebarNav";
 import PostCard from "@/components/PostCard";
+import AuthLayout from "@/layouts/AuthLayout";
 
 function PostPage() {
   const { postId } = useParams();
@@ -18,18 +19,20 @@ function PostPage() {
     },
   });
   return (
-    <div className="min-h-screen bg-zinc-900 px-4 py-14 text-zinc-50 md:py-16">
-      <div>
-        <SidebarNav />
-        <div className="mx-auto max-w-lg">
-          {isSuccess && data.post && (
-            <PostCard post={data.post} sort={"latest"} />
-          )}
-          {isPending && <LoadingMessage message={`loading post`} />}
-          {isError && <ErrorMessage message="Something went wrong" />}
+    <AuthLayout>
+      <div className="min-h-screen bg-zinc-900 px-4 py-14 text-zinc-50 md:py-16">
+        <div>
+          <SidebarNav />
+          <div className="mx-auto max-w-lg">
+            {isSuccess && data.post && (
+              <PostCard post={data.post} sort={"latest"} />
+            )}
+            {isPending && <LoadingMessage message={`loading post`} />}
+            {isError && <ErrorMessage message="Something went wrong" />}
+          </div>
         </div>
       </div>
-    </div>
+    </AuthLayout>
   );
 }
 

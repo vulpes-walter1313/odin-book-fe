@@ -7,6 +7,7 @@ import UserCard, { UserFromRequest } from "@/components/UserCard";
 import { Input } from "@/components/ui/input";
 import { FaSearch } from "react-icons/fa";
 import { useDebouncedCallback } from "use-debounce";
+import AuthLayout from "@/layouts/AuthLayout";
 
 function UsersPage() {
   const [page, setPage] = useState(1);
@@ -28,42 +29,44 @@ function UsersPage() {
   });
 
   return (
-    <div className="min-h-[calc(100vh-72px)] bg-zinc-900">
-      <div className="pb-32 pt-14">
-        <SidebarNav />
-        <div className="mb-6 px-4">
-          {/* search component here */}
-          <div className="mx-auto flex max-w-72 items-center gap-3 rounded-lg border border-zinc-700 bg-zinc-800 pr-4">
-            <Input
-              type="text"
-              className="border-0 bg-zinc-800 text-zinc-50"
-              placeholder="Search by Username"
-              onChange={(e) => debouncedSetKeyword(e.target.value)}
-            />
-            <FaSearch className="h-4 w-4 fill-zinc-50" />
+    <AuthLayout>
+      <div className="min-h-[calc(100vh-72px)] bg-zinc-900">
+        <div className="pb-32 pt-14">
+          <SidebarNav />
+          <div className="mb-6 px-4">
+            {/* search component here */}
+            <div className="mx-auto flex max-w-72 items-center gap-3 rounded-lg border border-zinc-700 bg-zinc-800 pr-4">
+              <Input
+                type="text"
+                className="border-0 bg-zinc-800 text-zinc-50"
+                placeholder="Search by Username"
+                onChange={(e) => debouncedSetKeyword(e.target.value)}
+              />
+              <FaSearch className="h-4 w-4 fill-zinc-50" />
+            </div>
+          </div>
+          <div className="mx-auto flex max-w-2xl flex-wrap justify-center gap-4">
+            {userQuery.isLoading && <p>Loading...</p>}
+            {userQuery.isError && <p>Error...</p>}
+            {userQuery.data &&
+              userQuery.data.map((user: UserFromRequest) => {
+                return <UserCard user={user} key={user.id} />;
+              })}
+          </div>
+          <div className="my-8 flex justify-center p-4">
+            {pagesArr.map((num) => (
+              <button
+                className="min-h-8 min-w-8 rounded-lg bg-violet-400 text-mobp font-medium text-zinc-50 lg:text-deskp lg:font-medium"
+                onClick={() => setPage(num)}
+                key={num}
+              >
+                {num}
+              </button>
+            ))}
           </div>
         </div>
-        <div className="mx-auto flex max-w-2xl flex-wrap justify-center gap-4">
-          {userQuery.isLoading && <p>Loading...</p>}
-          {userQuery.isError && <p>Error...</p>}
-          {userQuery.data &&
-            userQuery.data.map((user: UserFromRequest) => {
-              return <UserCard user={user} key={user.id} />;
-            })}
-        </div>
-        <div className="my-8 flex justify-center p-4">
-          {pagesArr.map((num) => (
-            <button
-              className="min-h-8 min-w-8 rounded-lg bg-violet-400 text-mobp font-medium text-zinc-50 lg:text-deskp lg:font-medium"
-              onClick={() => setPage(num)}
-              key={num}
-            >
-              {num}
-            </button>
-          ))}
-        </div>
       </div>
-    </div>
+    </AuthLayout>
   );
 }
 
