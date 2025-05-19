@@ -46,7 +46,7 @@ function ExplorePage() {
       <div className="min-h-[calc(100vh-72px)] bg-zinc-900 text-zinc-50">
         <div className="mx-auto max-w-lg gap-4 px-4 py-8 lg:relative">
           <SidebarNav />
-          <div className="mx-auto flex flex-col gap-6">
+          <div className="mx-auto mb-12 flex flex-col gap-6">
             <div className="flex gap-4">
               <Button
                 variant="outline"
@@ -93,7 +93,6 @@ function ExplorePage() {
               </InfiniteContainer>
             )}
           </div>
-          <div className="col-span-3"></div>
         </div>
       </div>
     </AuthLayout>
