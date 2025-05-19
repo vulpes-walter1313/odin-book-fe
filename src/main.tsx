@@ -34,6 +34,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="feed" element={<FeedPage />} />
             <Route path="explore" element={<ExplorePage />} />
             <Route path="users">
+              {/* /users/ */}
               <Route index element={<UsersPage />} />
               <Route path=":username" element={<UserPage />}>
                 <Route index element={<UserPostsPage />} />
@@ -42,6 +43,7 @@ createRoot(document.getElementById("root")!).render(
               </Route>
             </Route>
             <Route path="posts">
+              {/* /posts/ */}
               <Route path="create" element={<CreatePostPage />} />
               <Route path=":postId" element={<PostPage />} />
             </Route>
