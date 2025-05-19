@@ -1,55 +1,38 @@
-# React + TypeScript + Vite
+# Odook
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is my attempt to [The Odin Book Project](https://www.theodinproject.com/lessons/node-path-nodejs-odin-book) from [TheOdinProject](https://www.theodinproject.com). For a live demo, you can [see it hosted here](https://odin-book-fe.vercel.app). The backend code for this project can be [found here](https://github.com/vulpes-walter1313/odin-book-be).
 
-Currently, two official plugins are available:
+## Front End Technologies
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project uses the following libraries:
 
-## Expanding the ESLint configuration
+- React
+- React Router (declarative mode)
+- Vite
+- Shadcnui
+- react-hook-form
+- react-dropzone
+- Tailwindcss
+- Zod
+- Luxon
+- Tanstack Query
+- Typescript
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Features
 
-- Configure the top-level `parserOptions` property like this:
+Odook is a basic social media network that allows users to create an account, post an image with a caption, view their feed with posts from users they follow, explore all posts, comment on posts, find new users to follow, search for specific users, update their account, and delete their account.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
+### Infinite scroll
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+All posts feed, from `/feed` and `/explore`, and the posts comments have infinite scroll enabled. This is powered by [Tanstack query](https://tanstack.com/query/latest) and [react-intersection-observer](https://github.com/thebuilder/react-intersection-observer#readme)
 
-```js
-// eslint.config.js
-import react from "eslint-plugin-react";
+### Google Oauth login
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: "18.3" } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs["jsx-runtime"].rules,
-  },
-});
-```
+You can signin with google and skip the signup.
 
-# custom font sizes
+## Custom Font Sizes
+
+This project uses custom tailwind font sizes. These are in the `tailwind.config.js` file.
 
 ```text
 fontSize: {
