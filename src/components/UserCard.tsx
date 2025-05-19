@@ -48,7 +48,7 @@ function UserCard({ user }: UserCardProps) {
   return (
     <div
       key={user.id}
-      className="flex w-60 flex-col items-center justify-between rounded-xl bg-zinc-800 px-4 py-2"
+      className="flex w-full max-w-72 flex-col items-center justify-between rounded-xl bg-zinc-800 px-4 py-2"
     >
       <div className="flex flex-col items-center justify-center gap-2">
         <Avatar className="h-14 w-14">
@@ -78,7 +78,7 @@ function UserCard({ user }: UserCardProps) {
         </Link>
       </div>
       <div>
-        <p className="text-mobsmp text-zinc-50 md:text-desksmp">
+        <p className="w-full text-center text-mobsmp text-zinc-50 md:text-desksmp">
           {user.bio && user.bio !== "undefined"
             ? user.bio
             : "Hi everyone, follow me and get to know me! We might vibe together!"}
