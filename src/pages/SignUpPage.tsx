@@ -9,7 +9,7 @@ import {
 
 function SignupPage() {
   return (
-    <div className="flex h-screen items-center justify-center bg-zinc-900 px-4 py-14">
+    <div className="flex min-h-screen items-center justify-center bg-zinc-900 px-4 py-14">
       <Card className="mx-auto w-full max-w-md border-0 bg-zinc-800">
         <CardHeader>
           <CardTitle>
