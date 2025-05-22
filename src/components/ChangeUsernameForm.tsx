@@ -23,9 +23,9 @@ const formSchema = z.object({
     .max(32, {
       message: "Usernames must be at most 32 characters",
     })
-    .regex(/^[a-zA-Z]\w+[^-_$%#@!&*()]$/, {
+    .regex(/^[a-zA-Z]\w+[^-_$%#@!\s&*()]$/, {
       message:
-        "Usernames should not have special characters and not start with an @.",
+        "Usernames should not have special characters or spaces, and not start with an @.",
     }),
 });
 

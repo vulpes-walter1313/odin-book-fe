@@ -29,8 +29,9 @@ const formSchema = z
       .string()
       .min(3, { message: "username must be at least 3 characters long" })
       .max(48, { message: "" })
-      .refine((val) => !val.includes("@"), {
-        message: "Username should not include an @ symbol",
+      .regex(/^[a-zA-Z]\w+[^-_$%#@!\s&*()]$/, {
+        message:
+          "Usernames should not have special characters or spaces, and not start with an @.",
       }),
     email: z.string().email(),
     password: z
@@ -201,7 +202,7 @@ function SignUpForm() {
           type="submit"
           disabled={signupMuta.isPending}
         >
-          Sign In
+          Sign Up
         </Button>
       </form>
     </Form>
