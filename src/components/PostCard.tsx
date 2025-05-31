@@ -102,6 +102,7 @@ function PostCard({ post, sort }: PostCardProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.FEED] });
       queryClient.invalidateQueries({ queryKey: [QueryKeys.EXPLORE] });
+      toast({ description: "👍 Post deleted successfully" });
     },
   });
   return (
@@ -198,7 +199,7 @@ function PostCard({ post, sort }: PostCardProps) {
               deletePostMuta.mutate();
             }}
           >
-            Delete Post
+            {deletePostMuta.isPending ? "Deleting..." : "Delete Post"}
           </Button>
         )}
         {showComments && (
