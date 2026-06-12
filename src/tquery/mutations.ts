@@ -68,6 +68,29 @@ export async function signUpMutation({
   return { success: true };
 }
 
+type LogoutMutationPayload = {
+  allSessions: boolean;
+};
+export async function logoutMutation(values: LogoutMutationPayload) {
+  const refreshToken = localStorage.getItem("refreshToken");
+  const res = await makeRequestWithAuth("/auth/logout", {
+    method: "POST",
+    mode: "cors",
+    body: JSON.stringify({
+      allSessions: values.allSessions,
+      refreshToken: refreshToken,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!res.ok) {
+    const error: ErrorResType = await res.json();
+    throw new Error(error.error.message);
+  }
+  return { success: true };
+}
+
 export async function createPost(values: { caption: string; image: File }) {
   const formData = new FormData();
   formData.set("caption", values.caption);

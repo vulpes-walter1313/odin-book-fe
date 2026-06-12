@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Link, NavLink, useNavigate } from "react-router";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { QueryKeys } from "@/tquery/queryKeys";
 import { getAuthCheck } from "@/tquery/queries";
 import { HiUser } from "react-icons/hi";
 import { useState } from "react";
 import { logout } from "@/lib/requests";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { logoutMutation } from "@/tquery/mutations";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -16,6 +17,17 @@ function Navbar() {
     queryKey: [QueryKeys.USER, "auth"],
     queryFn: getAuthCheck,
   });
+  const logoutMuta = useMutation({
+    mutationFn: logoutMutation,
+    onSuccess: async () => {
+      await queryClient.removeQueries({
+        queryKey: [QueryKeys.USER, "auth"],
+      });
+      logout();
+      navigate("/");
+    },
+  });
+
   return (
     <nav className="bg-zinc-900 p-4 text-zinc-50">
       <div className="mx-auto flex max-w-5xl items-center justify-between">
@@ -79,16 +91,21 @@ function Navbar() {
                 </Button>
                 <Button
                   variant="outline"
-                  className="flex items-center text-violet-400"
+                  className="flex cursor-pointer items-center text-violet-400"
                   onClick={() => {
-                    logout();
-                    queryClient.invalidateQueries({
-                      queryKey: [QueryKeys.USER],
-                    });
-                    navigate("/signin");
+                    logoutMuta.mutate({ allSessions: false });
                   }}
                 >
                   Logout
+                </Button>
+                <Button
+                  variant="link"
+                  className="flex cursor-pointer items-center text-violet-400"
+                  onClick={() => {
+                    logoutMuta.mutate({ allSessions: true });
+                  }}
+                >
+                  Logout of all devices
                 </Button>
               </div>
             )}
